@@ -8,7 +8,7 @@ import {
 import { Service } from "typedi";
 
 @Service()
-class MySQL {
+export class MySQL {
   private conn: Pool;
   private credentials: PoolOptions;
 
