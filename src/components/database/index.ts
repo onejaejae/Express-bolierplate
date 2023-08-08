@@ -7,7 +7,6 @@ import {
 } from "mysql2/promise";
 import { Service } from "typedi";
 
-@Service()
 export class MySQL {
   private conn: Pool;
   private credentials: PoolOptions;
@@ -76,44 +75,57 @@ export class MySQL {
   }
 }
 
-(async () => {
-  const access: PoolOptions = {
-    host: "localhost",
-    user: "express",
-    password: "1234",
-    database: "express",
-    port: 3306,
-    debug: true,
-  };
+@Service()
+export class ConnectMySQL extends MySQL {
+  constructor() {
+    super({
+      host: "localhost",
+      user: "express",
+      password: "1234",
+      database: "express",
+      port: 3306,
+    });
+  }
+}
 
-  const mysql = new MySQL(access);
+// (async () => {
+//   const access: PoolOptions = {
+//     host: "localhost",
+//     user: "express",
+//     password: "1234",
+//     database: "express",
+//     port: 3306,
+//     debug: true,
+//   };
 
-  /** Deleting the `users` table, if it exists */
-  await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
+//   const mysql = new MySQL(access);
 
-  /** Creating a minimal user table */
-  await mysql.queryResult(
-    "CREATE TABLE `users` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
-  );
+//   /** Deleting the `users` table, if it exists */
+//   await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
 
-  /** Inserting some users */
-  const [inserted] = await mysql.executeResult(
-    "INSERT INTO `users`(`name`) VALUES(?), (?), (?), (?);",
-    ["Josh", "John", "Marie", "Gween"]
-  );
+//   /** Creating a minimal user table */
+//   await mysql.queryResult(
+//     "CREATE TABLE `users` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
+//   );
 
-  console.log("Inserted:", inserted.affectedRows);
+//   /** Inserting some users */
+//   const [inserted] = await mysql.executeResult(
+//     "INSERT INTO `users`(`name`) VALUES(?), (?), (?), (?);",
+//     ["Josh", "John", "Marie", "Gween"]
+//   );
 
-  /** Getting users */
-  const [users] = await mysql.queryRows(
-    "SELECT * FROM `users` ORDER BY `name` ASC;"
-  );
+//   console.log("Inserted:", inserted.affectedRows);
 
-  users.forEach((user) => {
-    console.log("-----------");
-    console.log("id:  ", user.id);
-    console.log("name:", user.name);
-  });
+//   /** Getting users */
+//   const [users] = await mysql.queryRows(
+//     "SELECT * FROM `users` ORDER BY `name` ASC;"
+//   );
 
-  await mysql.connection.end();
-})();
+//   users.forEach((user) => {
+//     console.log("-----------");
+//     console.log("id:  ", user.id);
+//     console.log("name:", user.name);
+//   });
+
+//   await mysql.connection.end();
+// })();
