@@ -3,10 +3,12 @@ import { IWrite } from "./interface/IWrite";
 import { IRead } from "./interface/IRead";
 import { ConnectMySQL } from "../database";
 import { ResultSetHeader } from "mysql2";
+import { TransactionManager } from "../database/transaction.manager";
 
 // that class only can be extended
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   protected abstract readonly mysql: ConnectMySQL;
+  protected abstract readonly txManager: TransactionManager;
 
   //we created constructor with arguments to manipulate mongodb operations
   constructor() {}
@@ -14,7 +16,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   abstract getName(): string;
 
   get connection() {
-    return this.mysql.connection;
+    return this.txManager.getConnectionManager();
   }
 
   // we add to method, the async keyword to manipulate the insertOne result
