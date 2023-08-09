@@ -2,14 +2,8 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import hpp from "hpp";
 import Container from "typedi";
-import { TransactionMiddleware } from "../common/middleware/transaction.middleware";
-import { ConfigService } from "../components/config/config.service";
 import userRouter from "../components/user/router/user.router";
-import { LoggerMiddleware } from "../common/middleware/logger.middleware";
 import { ResponseError } from "../types/config";
-import { NotFoundExceptionFilter } from "../common/filter/not-found.exception.filter";
-import { ForbiddenExceptionFilter } from "../common/filter/forbidden-exception.filter";
-import { HttpExceptionFilter } from "../common/filter/http-exception.filter";
 import { DependencyManager } from "./dependency.manager";
 
 export default (app: Express) => {

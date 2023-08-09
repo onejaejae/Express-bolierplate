@@ -4,12 +4,14 @@ import express from "express";
 import Container from "typedi";
 import { ConfigService } from "./components/config/config.service";
 import { WinstonConfigService } from "./components/config/winston-config.service";
+import { DependencyManager } from "./loaders/dependency.manager";
 
 const startServer = async () => {
   const app: express.Application = express();
-  const configService = Container.get(ConfigService);
-  const loggerService = Container.get(WinstonConfigService);
+  const dependencyManager = Container.get(DependencyManager);
 
+  const loggerService = dependencyManager.getWinstonLoggerService();
+  const configService = dependencyManager.getConfigService();
   const appConfig = configService.getAppConfig();
 
   await require("./loaders/express").default(app);

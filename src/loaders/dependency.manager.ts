@@ -5,11 +5,16 @@ import { ConfigService } from "../components/config/config.service";
 import { NotFoundExceptionFilter } from "../common/filter/not-found.exception.filter";
 import { ForbiddenExceptionFilter } from "../common/filter/forbidden-exception.filter";
 import { HttpExceptionFilter } from "../common/filter/http-exception.filter";
+import { WinstonConfigService } from "../components/config/winston-config.service";
 
 @Service()
 export class DependencyManager {
   getTransactionMiddleware(): TransactionMiddleware {
     return Container.get(TransactionMiddleware);
+  }
+
+  getWinstonLoggerService(): WinstonConfigService {
+    return Container.get(WinstonConfigService);
   }
 
   getLoggerMiddleware(): LoggerMiddleware {
