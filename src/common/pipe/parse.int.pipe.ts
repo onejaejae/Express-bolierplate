@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { Service } from "typedi";
 import { CustomRequest } from "../../types/common";
+import { BadRequestException } from "../exception/badRequest.exception";
 
 @Service()
 export class ParseIntPipe {
@@ -9,7 +10,7 @@ export class ParseIntPipe {
     const parsedId = parseInt(id, 10);
 
     if (isNaN(parsedId)) {
-      throw new Error(`Invalid id: ${id}`);
+      throw new BadRequestException(`Invalid id: ${id}`);
     }
 
     req.parsedId = parsedId;

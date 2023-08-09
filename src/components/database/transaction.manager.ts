@@ -5,13 +5,16 @@ import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../common/middleware/namespace.const";
+import { InternalServerErrorException } from "../../common/exception/internalServer.error.exception";
 
 @Service()
 export class TransactionManager {
   getConnectionManager(): PoolConnection {
     const nameSpace = getNamespace(EXPRESS_NAMESPACE);
     if (!nameSpace || !nameSpace.active) {
-      throw new Error(`${EXPRESS_NAMESPACE} is not active`);
+      throw new InternalServerErrorException(
+        `${EXPRESS_NAMESPACE} is not active`
+      );
     }
     return nameSpace.get(EXPRESS_ENTITY_MANAGER);
   }

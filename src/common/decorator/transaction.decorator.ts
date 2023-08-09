@@ -4,6 +4,7 @@ import {
   EXPRESS_NAMESPACE,
 } from "../middleware/namespace.const";
 import { PoolConnection } from "mysql2/promise";
+import { InternalServerErrorException } from "../exception/internalServer.error.exception";
 
 export function Transactional() {
   return function (
@@ -19,11 +20,13 @@ export function Transactional() {
       // validate nameSpace && get nameSpace
       const nameSpace = getNamespace(EXPRESS_NAMESPACE);
       if (!nameSpace || !nameSpace.active)
-        throw new Error(`${EXPRESS_NAMESPACE} is not active`);
+        throw new InternalServerErrorException(
+          `${EXPRESS_NAMESPACE} is not active`
+        );
 
       const conn = nameSpace.get(EXPRESS_ENTITY_MANAGER) as PoolConnection;
       if (!conn)
-        throw new Error(
+        throw new InternalServerErrorException(
           `Could not find pool in ${EXPRESS_NAMESPACE} nameSpace`
         );
 

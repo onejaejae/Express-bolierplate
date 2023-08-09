@@ -636,3 +636,83 @@
     at Generator.next (<anonymous>)
     at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
     at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
+2023-08-09 17:27:27 [atant] info: 🐁 [Express-API][local] Started at: 1691569647427
+2023-08-09 17:27:27 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:27:41 [atant] info: 🐁 [Express-API][local] Started at: 1691569661626
+2023-08-09 17:27:41 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:29:07 [atant] info: 🐁 [Express-API][local] Started at: 1691569747172
+2023-08-09 17:29:07 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:29:19 [atant] info: 🐁 [Express-API][local] Started at: 1691569759896
+2023-08-09 17:29:19 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:29:23 [atant] info: 🐁 [Express-API][local] Started at: 1691569763045
+2023-08-09 17:29:23 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:31:13 [atant] info: 🐁 [Express-API][local] Started at: 1691569873374
+2023-08-09 17:31:13 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:31:27 [atant] info: 🐁 [Express-API][local] Started at: 1691569887930
+2023-08-09 17:31:27 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:31:36 [atant] info: 🐁 [Express-API][local] Started at: 1691569896656
+2023-08-09 17:31:36 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:32:09 [atant] info: 🐁 [Express-API][local] Started at: 1691569929768
+2023-08-09 17:32:09 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:32:14 [atant] info: 🐁 [Express-API][local] Started at: 1691569934799
+2023-08-09 17:32:14 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:32:23 [atant] info: 🐁 [Express-API][local] Started at: 1691569943502
+2023-08-09 17:32:23 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:32:30 [atant] info: 🐁 [Express-API][local] Started at: 1691569950556
+2023-08-09 17:32:30 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:33:00 [atant] info: 🐁 [Express-API][local] Started at: 1691569980843
+2023-08-09 17:33:00 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:33:05 [atant] info: 🐁 [Express-API][local] Started at: 1691569985061
+2023-08-09 17:33:05 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:33:24 [atant] info: 🐁 [Express-API][local] Started at: 1691570004924
+2023-08-09 17:33:24 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:33:54 [atant] info: 🐁 [Express-API][local] Started at: 1691570034494
+2023-08-09 17:33:54 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:34:44 [atant] info: REQUEST [GET /api/users/1000] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:34:44 [atant] error: GET /api/users/1000 400 Error: Item with id 1000 not found.
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:48:13)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
+2023-08-09 17:36:11 [atant] info: 🐁 [Express-API][local] Started at: 1691570171826
+2023-08-09 17:36:11 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:36:27 [atant] info: 🐁 [Express-API][local] Started at: 1691570187775
+2023-08-09 17:36:27 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:37:25 [atant] info: 🐁 [Express-API][local] Started at: 1691570245973
+2023-08-09 17:37:25 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:37:44 [atant] info: 🐁 [Express-API][local] Started at: 1691570264377
+2023-08-09 17:37:44 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:38:08 [atant] info: 🐁 [Express-API][local] Started at: 1691570288453
+2023-08-09 17:38:08 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:38:35 [atant] info: 🐁 [Express-API][local] Started at: 1691570315854
+2023-08-09 17:38:35 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:38:46 [atant] info: 🐁 [Express-API][local] Started at: 1691570326100
+2023-08-09 17:38:46 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:39:15 [atant] info: 🐁 [Express-API][local] Started at: 1691570355573
+2023-08-09 17:39:15 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:39:27 [atant] info: 🐁 [Express-API][local] Started at: 1691570367778
+2023-08-09 17:39:27 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:39:32 [atant] info: 🐁 [Express-API][local] Started at: 1691570372830
+2023-08-09 17:39:32 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:40:03 [atant] info: 🐁 [Express-API][local] Started at: 1691570403813
+2023-08-09 17:40:03 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:40:06 [atant] info: REQUEST [GET /api/users/1000] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:40:06 [atant] error: GET /api/users/1000 500 Error: namespace/express is not active
+    at TransactionManager.getConnectionManager (/Users/chowonjae/Desktop/workplace/express/src/components/database/transaction.manager.ts:15:13)
+    at UserRepository.get connection [as connection] (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:18:27)
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:42:33)
+    at Generator.next (<anonymous>)
+    at /Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:4:12)
+    at UserRepository.findOneAndThrow (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:39:16)
+    at UserService.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/user/service/user.service.ts:13:32)
+    at Generator.next (<anonymous>) Response: "success: false, msg: namespace/express is not active"
+2023-08-09 17:40:13 [atant] info: 🐁 [Express-API][local] Started at: 1691570413686
+2023-08-09 17:40:13 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:40:17 [atant] info: REQUEST [GET /api/users/1000] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:40:17 [atant] error: GET /api/users/1000 400 Error: Item with id 1000 not found.
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:48:13)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."

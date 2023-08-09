@@ -3,6 +3,7 @@ import { IWrite } from "./interface/IWrite";
 import { IRead } from "./interface/IRead";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { TransactionManager } from "../database/transaction.manager";
+import { BadRequestException } from "../../common/exception/badRequest.exception";
 
 // that class only can be extended
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
@@ -44,7 +45,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     );
 
     if (result.length === 0) {
-      throw new Error(`Item with id ${id} not found.`);
+      throw new BadRequestException(`Item with id ${id} not found.`);
     }
 
     return result[0] as T;
