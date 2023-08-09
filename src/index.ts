@@ -1,24 +1,24 @@
 import "reflect-metadata";
 
-import express, { Request, Response } from "express";
-import userRouter from "./components/user/router/user.router";
+import express from "express";
 import Container from "typedi";
-import { TransactionMiddleware } from "./common/middleware/transaction.middleware";
-import { ConnectMySQL } from "./components/database";
+import { ConfigService } from "./components/config/config.service";
 
-const app = express();
+const startServer = async () => {
+  const app: express.Application = express();
+  const configService = Container.get(ConfigService);
 
-app.use(express.json());
+  const appConfig = configService.getAppConfig();
 
-const transactionMiddleware = Container.get(TransactionMiddleware);
+  await require("./loaders/express").default(app);
 
-app.use((req, res, next) => {
-  transactionMiddleware.use(req, res, next);
-});
-app.use("/api/users", userRouter);
+  app.listen(appConfig.PORT, () => {
+    console.log(`Server is running on port ${appConfig.PORT}`);
+  });
 
-const port = process.env.PORT || 6000;
+  process.on("uncaughtException", function (err) {
+    console.log(`uncaughtException (Node is alive): ${err.message}`);
+  });
+};
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+startServer();
