@@ -139,3 +139,47 @@
     at UserService.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/user/service/user.service.ts:17:31)
     at Generator.next (<anonymous>)
     at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/user/service/user.service.ts:14:58) Response: "success: false, msg: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''user'' at line 1"
+2023-08-09 15:09:02 [atant] error: POST /api/users22 404 Error: Not Found
+    at NotFoundExceptionFilter.use (/Users/chowonjae/Desktop/workplace/express/src/common/filter/not-found.exception.filter.ts:9:32)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:40:29
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:328:13)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:280:10)
+    at LoggerMiddleware.use (/Users/chowonjae/Desktop/workplace/express/src/common/middleware/logger.middleware.ts:28:5)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:33:22
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5) Response: "success: false, msg: Not Found"
+2023-08-09 15:09:49 [atant] error: POST /api/users22 404 Error: POST /api/users22 Not Found
+    at NotFoundExceptionFilter.use (/Users/chowonjae/Desktop/workplace/express/src/common/filter/not-found.exception.filter.ts:9:32)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:40:29
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:328:13)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:280:10)
+    at LoggerMiddleware.use (/Users/chowonjae/Desktop/workplace/express/src/common/middleware/logger.middleware.ts:28:5)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:33:22
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5) Response: "success: false, msg: POST /api/users22 Not Found"
+2023-08-09 15:20:46 [atant] error: POST /api/users22 404 Error: POST /api/users22 Not Found
+    at NotFoundExceptionFilter.use (/Users/chowonjae/Desktop/workplace/express/src/common/filter/not-found.exception.filter.ts:9:32)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:44:29
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:328:13)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:280:10)
+    at LoggerMiddleware.use (/Users/chowonjae/Desktop/workplace/express/src/common/middleware/logger.middleware.ts:28:5)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:37:22
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5) Response: "success: false, msg: POST /api/users22 Not Found"
+2023-08-09 15:21:37 [atant] error: POST /api/users undefined Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''user'' at line 1
+    at PromisePoolConnection.query (/Users/chowonjae/Desktop/workplace/express/node_modules/mysql2/promise.js:94:22)
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:25:44)
+    at Generator.next (<anonymous>)
+    at /Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:4:12)
+    at UserRepository.create (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:23:16)
+    at UserService.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/user/service/user.service.ts:17:31)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/user/service/user.service.ts:14:58) Response: "success: false, msg: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''user'' at line 1"

@@ -7,15 +7,17 @@ import { ConfigService } from "../components/config/config.service";
 import userRouter from "../components/user/router/user.router";
 import { LoggerMiddleware } from "../common/middleware/logger.middleware";
 import { ResponseError } from "../types/config";
-import { WinstonConfigService } from "../components/config/winston-config.service";
-import statusCode from "../common/constant/statusCode";
-import util from "../common/util/response.util";
+import { NotFoundExceptionFilter } from "../common/filter/not-found.exception.filter";
+import { ForbiddenExceptionFilter } from "../common/filter/forbidden-exception.filter";
+import { HttpExceptionFilter } from "../common/filter/http-exception.filter";
 
 export default (app: Express) => {
   const transactionMiddleware = Container.get(TransactionMiddleware);
-  const loggerService = Container.get(WinstonConfigService);
   const loggerMiddleware = Container.get(LoggerMiddleware);
   const configService = Container.get(ConfigService);
+  const notFoundExceptionFilter = Container.get(NotFoundExceptionFilter);
+  const forbiddenExceptionFilter = Container.get(ForbiddenExceptionFilter);
+  const httpExceptionFilter = Container.get(HttpExceptionFilter);
 
   const appConfig = configService.getAppConfig();
   if (appConfig.ENV === "production") {
@@ -33,36 +35,22 @@ export default (app: Express) => {
 
   app.use("/api/users", userRouter);
 
-  /// error handlers
+  /// catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    notFoundExceptionFilter.use(req, res, next);
+  });
+
+  /// forbidden error handlers
   app.use(
     (err: ResponseError, req: Request, res: Response, next: NextFunction) => {
-      /**
-       * Handle 401 thrown by express-jwt library
-       */
-      if (err.name === "UnauthorizedError") {
-        loggerService.logger.error(
-          `${res.req.method} ${res.req.url}  Response: "success: false, msg: ${err.message}"`
-        );
-
-        return res
-          .status(statusCode.UNAUTHORIZED)
-          .send(util.fail(statusCode.UNAUTHORIZED, err.message))
-          .end();
-      }
-      return next(err);
+      forbiddenExceptionFilter.use(err, req, res, next);
     }
   );
 
+  /// http error handlers
   app.use(
     (err: ResponseError, req: Request, res: Response, next: NextFunction) => {
-      res.status(err.status || statusCode.INTERNAL_SERVER_ERROR);
-      if (appConfig.ENV !== "production") {
-        loggerService.logger.error(
-          `${res.req.method} ${res.req.url} ${err.status} ${err.stack} Response: "success: false, msg: ${err.message}"`
-        );
-      }
-
-      res.send(util.fail(err.status || 500, err.message));
+      httpExceptionFilter.use(err, req, res, next);
     }
   );
 };
