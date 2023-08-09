@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { validatorErrorChecker } from "../../../common/validation";
 
 export const createUserPropertiesValidator = [
@@ -9,5 +9,13 @@ export const createUserPropertiesValidator = [
     .isString()
     .trim()
     .withMessage("name must be string"),
+  validatorErrorChecker,
+];
+
+export const getUserPropertiesValidator = [
+  param("id")
+    .notEmpty()
+    .withMessage("This field is required. Please provide a value.")
+    .bail(),
   validatorErrorChecker,
 ];

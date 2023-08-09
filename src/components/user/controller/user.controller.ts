@@ -5,10 +5,19 @@ import { CreateUserDTO } from "../dto/create.user.dto";
 import statusCode from "../../../common/constant/statusCode";
 import util from "../../../common/util/response.util";
 import { tryCatch } from "../../../common/decorator/try-catch.decorator";
+import { CustomRequest } from "../../../types/common";
 
 @Service()
 class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @tryCatch()
+  async getUser(req: CustomRequest, res: Response, next: NextFunction) {
+    if (!req.parsedId) throw new Error(`parsedId don't exist`);
+
+    const result = await this.userService.getUser(req.parsedId);
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, result));
+  }
 
   @tryCatch()
   async createUser(req: Request, res: Response, next: NextFunction) {

@@ -3,7 +3,7 @@ import helmet from "helmet";
 import hpp from "hpp";
 import Container from "typedi";
 import userRouter from "../components/user/router/user.router";
-import { ResponseError } from "../types/config";
+import { ResponseError } from "../types/common";
 import { DependencyManager } from "./dependency.manager";
 
 export default (app: Express) => {

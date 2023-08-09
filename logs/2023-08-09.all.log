@@ -572,3 +572,67 @@
 2023-08-09 16:28:00 [atant] info: 🚀 Server open at http://localhost:6000
 2023-08-09 16:28:34 [atant] info: 🐁 [Express-API][local] Started at: 1691566114861
 2023-08-09 16:28:34 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 16:36:48 [atant] info: 🐁 [Express-API][local] Started at: 1691566608377
+2023-08-09 16:36:48 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 16:38:08 [atant] info: 🐁 [Express-API][local] Started at: 1691566688141
+2023-08-09 16:38:08 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 16:38:42 [atant] info: 🐁 [Express-API][local] Started at: 1691566722351
+2023-08-09 16:38:42 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 16:38:44 [atant] info: 🐁 [Express-API][local] Started at: 1691566724912
+2023-08-09 16:38:44 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:15:21 [atant] info: 🐁 [Express-API][local] Started at: 1691568921333
+2023-08-09 17:15:21 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:15:42 [atant] info: 🐁 [Express-API][local] Started at: 1691568942762
+2023-08-09 17:15:42 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:15:44 [atant] info: 🐁 [Express-API][local] Started at: 1691568944258
+2023-08-09 17:15:44 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:19:34 [atant] info: 🐁 [Express-API][local] Started at: 1691569174872
+2023-08-09 17:19:34 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:20:14 [atant] info: REQUEST [GET /api/users/asd] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:20:14 [atant] error: GET /api/users/asd 404 Error: GET /api/users/asd Not Found
+    at NotFoundExceptionFilter.use (/Users/chowonjae/Desktop/workplace/express/src/common/filter/not-found.exception.filter.ts:9:32)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:41:29
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:328:13)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:280:10)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:646:15
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:175:3) Response: "success: false, msg: GET /api/users/asd Not Found"
+2023-08-09 17:20:25 [atant] info: 🐁 [Express-API][local] Started at: 1691569225070
+2023-08-09 17:20:25 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:20:27 [atant] info: REQUEST [GET /api/users/asd] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:20:27 [atant] error: GET /api/users/asd 404 Error: GET /api/users/asd Not Found
+    at NotFoundExceptionFilter.use (/Users/chowonjae/Desktop/workplace/express/src/common/filter/not-found.exception.filter.ts:9:32)
+    at /Users/chowonjae/Desktop/workplace/express/src/loaders/express.ts:41:29
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:328:13)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:280:10)
+    at /Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:646:15
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:265:14)
+    at Function.handle (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/index.js:175:3) Response: "success: false, msg: GET /api/users/asd Not Found"
+2023-08-09 17:20:47 [atant] info: 🐁 [Express-API][local] Started at: 1691569247561
+2023-08-09 17:20:47 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:20:49 [atant] info: 🐁 [Express-API][local] Started at: 1691569249357
+2023-08-09 17:20:49 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 17:20:51 [atant] info: REQUEST [GET /api/users/asd] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:20:51 [atant] error: GET /api/users/asd undefined Error: Invalid id: asd
+    at ParseIntPipe.use (/Users/chowonjae/Desktop/workplace/express/src/common/pipe/parse.int.pipe.ts:12:13)
+    at /Users/chowonjae/Desktop/workplace/express/src/components/user/router/user.router.ts:21:18
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/route.js:144:13)
+    at validatorErrorChecker (/Users/chowonjae/Desktop/workplace/express/src/common/validation/index.ts:18:3)
+    at Layer.handle [as handle_request] (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/chowonjae/Desktop/workplace/express/node_modules/express/lib/router/route.js:144:13)
+    at middleware (/Users/chowonjae/Desktop/workplace/express/node_modules/express-validator/src/middlewares/check.js:16:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Invalid id: asd"
+2023-08-09 17:21:02 [atant] info: REQUEST [GET /api/users/10] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:21:48 [atant] info: REQUEST [GET /api/users/1000] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 17:21:48 [atant] error: GET /api/users/1000 undefined Error: Item with id 1000 not found.
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:47:13)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."

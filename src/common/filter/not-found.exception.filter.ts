@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Service } from "typedi";
-import { ResponseError } from "../../types/config";
+import { ResponseError } from "../../types/common";
 import statusCode from "../constant/statusCode";
 
 @Service()

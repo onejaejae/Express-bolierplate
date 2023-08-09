@@ -9,6 +9,10 @@ import { IUserService } from "../interface/user-service.interface";
 class UserService implements IUserService {
   constructor(private readonly userRepository: UserRepository) {}
 
+  async getUser(uesrId: number): Promise<User> {
+    return this.userRepository.findOneAndThrow(uesrId);
+  }
+
   @Transactional()
   async createUser(createUserDTO: CreateUserDTO): Promise<boolean> {
     const user = new User(createUserDTO.name);

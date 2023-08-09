@@ -16,7 +16,3 @@ export interface Configurations {
   APP: AppConfig;
   DB: DBConfig;
 }
-
-export interface ResponseError extends Error {
-  status?: number;
-}
