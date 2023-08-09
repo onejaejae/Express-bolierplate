@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { Service } from "typedi";
 import UserService from "../service/user.service";
 import { CreateUserDTO } from "../dto/create.user.dto";
+import statusCode from "../../../common/constant/statusCode";
+import util from "../../../common/util/response.util";
 
 @Service()
 class UserController {
@@ -12,8 +14,10 @@ class UserController {
 
     const createUserDTO = new CreateUserDTO(name);
 
-    const result = await this.userService.createUser(createUserDTO);
-    return res.json(result);
+    await this.userService.createUser(createUserDTO);
+    return res
+      .status(statusCode.CREATED)
+      .send(util.success(statusCode.CREATED));
   }
 }
 
