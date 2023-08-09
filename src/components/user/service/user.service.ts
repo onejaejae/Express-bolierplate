@@ -12,12 +12,7 @@ class UserService {
   async createUser(createUserDTO: CreateUserDTO): Promise<boolean> {
     const user = new User(createUserDTO.name);
 
-    await this.userRepository.create(user);
-    await this.userRepository.create(user);
-    await this.userRepository.create(user);
-    await this.userRepository.create(user);
-
-    return true;
+    return this.userRepository.create(user);
   }
 }
 
