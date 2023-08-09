@@ -88,6 +88,10 @@ export class ConnectMySQL extends MySQL {
   }
 }
 
+export class BaseEntity {
+  id: number;
+}
+
 // (async () => {
 //   const access: PoolOptions = {
 //     host: "localhost",

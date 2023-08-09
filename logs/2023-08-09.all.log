@@ -716,3 +716,75 @@
     at Generator.next (<anonymous>)
     at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
     at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
+2023-08-09 19:47:56 [atant] info: 🐁 [Express-API][local] Started at: 1691578076996
+2023-08-09 19:47:56 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:48:33 [atant] info: 🐁 [Express-API][local] Started at: 1691578113597
+2023-08-09 19:48:33 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:48:55 [atant] info: 🐁 [Express-API][local] Started at: 1691578135927
+2023-08-09 19:48:55 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:49:20 [atant] info: 🐁 [Express-API][local] Started at: 1691578160830
+2023-08-09 19:49:20 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:50:09 [atant] info: 🐁 [Express-API][local] Started at: 1691578209576
+2023-08-09 19:50:09 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:50:12 [atant] info: 🐁 [Express-API][local] Started at: 1691578212227
+2023-08-09 19:50:12 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:50:14 [atant] info: 🐁 [Express-API][local] Started at: 1691578214418
+2023-08-09 19:50:14 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:51:34 [atant] info: 🐁 [Express-API][local] Started at: 1691578294009
+2023-08-09 19:51:34 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:53:09 [atant] info: 🐁 [Express-API][local] Started at: 1691578389980
+2023-08-09 19:53:09 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:53:27 [atant] info: 🐁 [Express-API][local] Started at: 1691578407975
+2023-08-09 19:53:27 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:54:08 [atant] info: 🐁 [Express-API][local] Started at: 1691578448411
+2023-08-09 19:54:08 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:54:14 [atant] info: 🐁 [Express-API][local] Started at: 1691578454263
+2023-08-09 19:54:14 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:54:43 [atant] info: 🐁 [Express-API][local] Started at: 1691578483426
+2023-08-09 19:54:43 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:55:01 [atant] info: 🐁 [Express-API][local] Started at: 1691578501058
+2023-08-09 19:55:01 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:55:04 [atant] info: REQUEST [GET /api/users/1000] ::1 PostmanRuntime/7.32.3 has been excuted
+2023-08-09 19:55:04 [atant] error: GET /api/users/1000 400 Error: Item with id 1000 not found.
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:48:13)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
+2023-08-09 19:57:03 [atant] info: 🐁 [Express-API][local] Started at: 1691578623161
+2023-08-09 19:57:03 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:57:24 [atant] info: 🐁 [Express-API][local] Started at: 1691578644958
+2023-08-09 19:57:24 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:58:56 [atant] info: 🐁 [Express-API][local] Started at: 1691578736983
+2023-08-09 19:58:56 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 19:59:50 [atant] info: 🐁 [Express-API][local] Started at: 1691578790752
+2023-08-09 19:59:50 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:00:24 [atant] info: 🐁 [Express-API][local] Started at: 1691578824439
+2023-08-09 20:00:24 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:00:38 [atant] info: 🐁 [Express-API][local] Started at: 1691578838474
+2023-08-09 20:00:38 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:00:50 [atant] info: 🐁 [Express-API][local] Started at: 1691578850647
+2023-08-09 20:00:50 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:06:57 [atant] info: 🐁 [Express-API][local] Started at: 1691579217931
+2023-08-09 20:06:57 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:07:43 [atant] info: 🐁 [Express-API][local] Started at: 1691579263847
+2023-08-09 20:07:43 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:08:22 [atant] info: 🐁 [Express-API][local] Started at: 1691579302960
+2023-08-09 20:08:22 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:08:32 [atant] info: 🐁 [Express-API][local] Started at: 1691579312713
+2023-08-09 20:08:32 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:09:15 [atant] info: 🐁 [Express-API][local] Started at: 1691579355653
+2023-08-09 20:09:15 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:09:38 [atant] info: 🐁 [Express-API][local] Started at: 1691579378291
+2023-08-09 20:09:38 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:09:44 [atant] info: 🐁 [Express-API][local] Started at: 1691579384030
+2023-08-09 20:09:44 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:09:54 [atant] info: 🐁 [Express-API][local] Started at: 1691579394216
+2023-08-09 20:09:54 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:09:57 [atant] info: 🐁 [Express-API][local] Started at: 1691579397596
+2023-08-09 20:09:57 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:10:06 [atant] info: 🐁 [Express-API][local] Started at: 1691579406513
+2023-08-09 20:10:06 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 20:10:45 [atant] info: 🐁 [Express-API][local] Started at: 1691579445389
+2023-08-09 20:10:45 [atant] info: 🚀 Server open at http://localhost:6000
+2023-08-09 23:51:40 [atant] info: 🐁 [Express-API][local] Started at: 1691592700291
+2023-08-09 23:51:40 [atant] info: 🚀 Server open at http://localhost:6000

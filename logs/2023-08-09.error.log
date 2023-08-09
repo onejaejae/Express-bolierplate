@@ -241,3 +241,8 @@
     at Generator.next (<anonymous>)
     at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
     at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
+2023-08-09 19:55:04 [atant] error: GET /api/users/1000 400 Error: Item with id 1000 not found.
+    at UserRepository.<anonymous> (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:48:13)
+    at Generator.next (<anonymous>)
+    at fulfilled (/Users/chowonjae/Desktop/workplace/express/src/components/repository/base.repository.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5) Response: "success: false, msg: Item with id 1000 not found."
