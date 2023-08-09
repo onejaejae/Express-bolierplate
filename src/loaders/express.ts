@@ -5,9 +5,11 @@ import Container from "typedi";
 import { TransactionMiddleware } from "../common/middleware/transaction.middleware";
 import { ConfigService } from "../components/config/config.service";
 import userRouter from "../components/user/router/user.router";
+import { LoggerMiddleware } from "../common/middleware/logger.middleware";
 
 export default (app: Express) => {
   const transactionMiddleware = Container.get(TransactionMiddleware);
+  const loggerMiddleware = Container.get(LoggerMiddleware);
   const configService = Container.get(ConfigService);
 
   const appConfig = configService.getAppConfig();
@@ -19,6 +21,9 @@ export default (app: Express) => {
   app.use(express.json());
   app.use((req, res, next) => {
     transactionMiddleware.use(req, res, next);
+  });
+  app.use((req, res, next) => {
+    loggerMiddleware.use(req, res, next);
   });
 
   app.use("/api/users", userRouter);
