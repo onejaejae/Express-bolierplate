@@ -2,8 +2,6 @@ import "reflect-metadata";
 
 import express from "express";
 import Container from "typedi";
-import { ConfigService } from "./components/config/config.service";
-import { WinstonConfigService } from "./components/config/winston-config.service";
 import { DependencyManager } from "./loaders/dependency.manager";
 
 const startServer = async () => {

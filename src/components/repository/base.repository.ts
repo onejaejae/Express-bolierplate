@@ -7,7 +7,6 @@ import { TransactionManager } from "../database/transaction.manager";
 
 // that class only can be extended
 export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
-  protected abstract readonly mysql: ConnectMySQL;
   protected abstract readonly txManager: TransactionManager;
 
   //we created constructor with arguments to manipulate mongodb operations

@@ -3,9 +3,10 @@ import { User } from "../entity/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { CreateUserDTO } from "../dto/create.user.dto";
 import { Transactional } from "../../../common/decorator/transaction.decorator";
+import { IUserService } from "../interface/user-service.interface";
 
 @Service()
-class UserService {
+class UserService implements IUserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   @Transactional()
