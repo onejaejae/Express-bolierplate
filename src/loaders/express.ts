@@ -10,14 +10,19 @@ import { ResponseError } from "../types/config";
 import { NotFoundExceptionFilter } from "../common/filter/not-found.exception.filter";
 import { ForbiddenExceptionFilter } from "../common/filter/forbidden-exception.filter";
 import { HttpExceptionFilter } from "../common/filter/http-exception.filter";
+import { DependencyManager } from "./dependency.manager";
 
 export default (app: Express) => {
-  const transactionMiddleware = Container.get(TransactionMiddleware);
-  const loggerMiddleware = Container.get(LoggerMiddleware);
-  const configService = Container.get(ConfigService);
-  const notFoundExceptionFilter = Container.get(NotFoundExceptionFilter);
-  const forbiddenExceptionFilter = Container.get(ForbiddenExceptionFilter);
-  const httpExceptionFilter = Container.get(HttpExceptionFilter);
+  const dependencyManager = Container.get(DependencyManager);
+
+  const transactionMiddleware = dependencyManager.getTransactionMiddleware();
+  const loggerMiddleware = dependencyManager.getLoggerMiddleware();
+  const configService = dependencyManager.getConfigService();
+  const notFoundExceptionFilter =
+    dependencyManager.getNotFoundExceptionFilter();
+  const forbiddenExceptionFilter =
+    dependencyManager.getForbiddenExceptionFilter();
+  const httpExceptionFilter = dependencyManager.getHttpExceptionFilter();
 
   const appConfig = configService.getAppConfig();
   if (appConfig.ENV === "production") {
@@ -26,6 +31,8 @@ export default (app: Express) => {
   }
 
   app.use(express.json());
+
+  // global middlewares
   app.use((req, res, next) => {
     transactionMiddleware.use(req, res, next);
   });
