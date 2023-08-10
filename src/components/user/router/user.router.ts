@@ -1,9 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import Container from "typedi";
-import {
-  createUserPropertiesValidator,
-  getUserPropertiesValidator,
-} from "../validation";
+import { getUserPropertiesValidator } from "../validation";
 import { DependencyManager } from "../../../loaders/dependency.manager";
 import { CustomRequest } from "../../../types/common";
 
@@ -21,13 +18,6 @@ userRouter.get(
     parseIntPipe.use(req, res, next),
   (req: CustomRequest, res: Response, next: NextFunction) =>
     userController.getUser(req, res, next)
-);
-
-userRouter.post(
-  "/",
-  createUserPropertiesValidator,
-  (req: Request, res: Response, next: NextFunction) =>
-    userController.createUser(req, res, next)
 );
 
 export default userRouter;

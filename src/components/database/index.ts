@@ -84,6 +84,8 @@ export class ConnectMySQL extends MySQL {
       password: "1234",
       database: "express",
       port: 3306,
+      connectionLimit: 10,
+      queueLimit: 0,
     });
   }
 }

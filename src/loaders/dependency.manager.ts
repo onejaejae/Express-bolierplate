@@ -8,6 +8,7 @@ import { HttpExceptionFilter } from "../common/filter/http-exception.filter";
 import { WinstonConfigService } from "../components/config/winston-config.service";
 import UserController from "../components/user/controller/user.controller";
 import { ParseIntPipe } from "../common/pipe/parse.int.pipe";
+import AuthController from "../components/auth/controller/auth.controller";
 
 @Service()
 export class DependencyManager {
@@ -41,6 +42,10 @@ export class DependencyManager {
 
   getParseIntPipe(): ParseIntPipe {
     return Container.get(ParseIntPipe);
+  }
+
+  getAuthController(): AuthController {
+    return Container.get(AuthController);
   }
 
   getUserController(): UserController {

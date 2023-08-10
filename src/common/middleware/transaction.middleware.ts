@@ -3,15 +3,9 @@ import { createNamespace, getNamespace } from "cls-hooked";
 import { EXPRESS_ENTITY_MANAGER, EXPRESS_NAMESPACE } from "./namespace.const";
 import { Service } from "typedi";
 import { ConnectMySQL } from "../../components/database";
-import { AsyncLocalStorage } from "async_hooks";
-import { Pool } from "mysql2";
 
 @Service()
 export class TransactionMiddleware {
-  private readonly poolLocalStorage = new AsyncLocalStorage<{
-    pool: Pool;
-  }>();
-
   constructor(private readonly mysql: ConnectMySQL) {}
 
   use(_req: Request, _res: Response, next: NextFunction) {
