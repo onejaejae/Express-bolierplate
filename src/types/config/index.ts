@@ -12,7 +12,12 @@ export interface DBConfig {
   DB_PORT: number | string;
 }
 
+export interface JwtConfig {
+  JWT_SECRET: string;
+}
+
 export interface Configurations {
   APP: AppConfig;
   DB: DBConfig;
+  JWT: JwtConfig;
 }

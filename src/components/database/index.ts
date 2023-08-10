@@ -108,7 +108,7 @@ export class BaseEntity {
 //   await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
 //   /* Creating a minimal user table */
 //   await mysql.queryResult(
-//     "CREATE TABLE `users` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `email` VARCHAR(45) NOT NULL, `password` VARCHAR(100) NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);"
+//     "CREATE TABLE `users` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `email` VARCHAR(45) NOT NULL, `password` VARCHAR(100) NOT NULL, `refreshToken` VARCHAR(200) NULL, PRIMARY KEY (`id`), UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);"
 //   );
 //   /** Creating a minimal user table */
 //   // await mysql.queryResult22(

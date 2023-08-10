@@ -23,5 +23,8 @@ export const configurations = (): Configurations => {
       DB_DATABASE: process.env.DB_DATABASE || "",
       DB_PORT: process.env.DB_PORT || 3306,
     },
+    JWT: {
+      JWT_SECRET: process.env.JWT_SECRET || "",
+    },
   };
 };

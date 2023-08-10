@@ -5,29 +5,58 @@ import { UserRepository } from "../../user/repository/user.repository";
 import { CreateUserDTO } from "../../user/dto/create.user.dto";
 import { User } from "../../user/entity/user.entity";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
-import { createHash } from "../../../common/util/encrypt";
+import { createHash, isSameAsHash } from "../../../common/util/encrypt";
+import { LoginDTO } from "../dto/login.dto";
+import { TokenService } from "../../jwt/token.service";
+import { TokenPayload } from "../../jwt/dto/token-payload.dto";
 
 @Service()
 export class AuthService implements IAuthService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly tokenService: TokenService,
+    private readonly userRepository: UserRepository
+  ) {}
 
   @Transactional()
   async signUp(createUserDTO: CreateUserDTO): Promise<boolean> {
     const { email, password } = createUserDTO;
 
-    const isExist = await this.isEmailExist(email);
-    if (isExist) throw new BadRequestException(`email: ${email} already exist`);
+    const user = await this.findByEmail(email);
+    if (user) throw new BadRequestException(`email: ${email} already exist`);
 
     const hashedPassword = await createHash(password);
-    const user = new User(email, hashedPassword);
-    return this.userRepository.create(user);
+    const newUser = new User(email, hashedPassword);
+    return this.userRepository.create(newUser);
   }
 
-  async isEmailExist(email: string) {
-    const isEmailExist = await this.userRepository.findOne({
+  async jwtLogin(loginDTO: LoginDTO): Promise<any> {
+    const { email, password } = loginDTO;
+
+    const user = await this.findByEmail(email);
+    if (!user) throw new BadRequestException(`email: ${email} don't exist`);
+
+    const isPasswordValid: boolean = await this.isPasswordValidate(
+      password,
+      user.password
+    );
+    if (!isPasswordValid)
+      throw new BadRequestException(`password를 확인해주세요.`);
+
+    const payloadDTO = new TokenPayload(user.id.toString(), user.email);
+    return this.tokenService.createToken(payloadDTO.toPlain());
+  }
+
+  async findByEmail(email: string) {
+    return this.userRepository.findOne({
       email,
     });
-    return isEmailExist !== null;
+  }
+
+  async isPasswordValidate(
+    plainPassword: string,
+    hashedPassword: string
+  ): Promise<boolean> {
+    return isSameAsHash(plainPassword, hashedPassword);
   }
 }
 

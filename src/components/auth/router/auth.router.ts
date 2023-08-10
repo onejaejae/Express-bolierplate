@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import Container from "typedi";
 import { DependencyManager } from "../../../loaders/dependency.manager";
 import { signUpPropertiesValidator } from "../validation/signUp.validation";
+import { loginPropertiesValidator } from "../validation/login.validation";
 
 const authRouter: Router = Router();
 
@@ -14,6 +15,13 @@ authRouter.post(
   signUpPropertiesValidator,
   (req: Request, res: Response, next: NextFunction) =>
     authController.signUp(req, res, next)
+);
+
+authRouter.post(
+  "/login",
+  loginPropertiesValidator,
+  (req: Request, res: Response, next: NextFunction) =>
+    authController.JwtLogin(req, res, next)
 );
 
 export default authRouter;

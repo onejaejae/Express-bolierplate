@@ -1,5 +1,5 @@
 import { Service } from "typedi";
-import { AppConfig, DBConfig } from "../../types/config";
+import { AppConfig, DBConfig, JwtConfig } from "../../types/config";
 import { configurations } from "./configuration";
 
 @Service()
@@ -10,5 +10,9 @@ export class ConfigService {
 
   getDBConfig(): DBConfig {
     return configurations().DB;
+  }
+
+  getJwtConfig(): JwtConfig {
+    return configurations().JWT;
   }
 }
