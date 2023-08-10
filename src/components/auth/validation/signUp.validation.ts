@@ -2,12 +2,13 @@ import { body } from "express-validator";
 import { validatorErrorChecker } from "../../../common/validation";
 
 export const signUpPropertiesValidator = [
-  body("name")
+  body("email")
     .notEmpty()
-    .withMessage("This field is required. Please provide a value.")
+    .withMessage("email field is required. Please provide a value.")
     .bail()
-    .isString()
+    .isEmail()
     .trim()
-    .withMessage("name must be string"),
+    .withMessage("email must be email format"),
+  body("password").notEmpty().withMessage("비밀번호를 입력해주세요."),
   validatorErrorChecker,
 ];

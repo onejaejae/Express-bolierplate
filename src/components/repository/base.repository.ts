@@ -38,7 +38,26 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     throw new Error("Method not implemented.");
   }
 
-  async findOneAndThrow(id: number): Promise<T> {
+  async findOne(filters: Partial<T>): Promise<T | null> {
+    const keys = Object.keys(filters);
+    if (keys.length === 0) {
+      throw new BadRequestException(
+        "At least one filter parameter must be provided."
+      );
+    }
+
+    const whereClause = keys.map((key) => `${key} = ?`).join(" AND ");
+    const values = keys.map((key) => (filters as any)[key]);
+    const query = `SELECT * FROM ${this.getName()} WHERE ${whereClause} LIMIT 1`;
+
+    const [result] = await this.connection.query<RowDataPacket[]>(
+      query,
+      values
+    );
+    return result.length > 0 ? (result[0] as T) : null;
+  }
+
+  async findByIdOrThrow(id: number): Promise<T> {
     const [result] = await this.connection.query<RowDataPacket[]>(
       `SELECT * FROM ${this.getName()} WHERE id = ? LIMIT 1`,
       [id]

@@ -13,9 +13,9 @@ class AuthController {
 
   @tryCatch()
   async signUp(req: Request, res: Response, next: NextFunction) {
-    const { name } = req.body;
+    const { email, password } = req.body;
 
-    const createUserDTO = new CreateUserDTO(name);
+    const createUserDTO = new CreateUserDTO(email, password);
 
     await this.authService.signUp(createUserDTO);
     return res

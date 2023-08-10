@@ -1,10 +1,12 @@
 import { BaseEntity } from "../../database";
 
 export class User extends BaseEntity {
-  name: string;
+  email: string;
+  password: string;
 
-  constructor(name: string) {
+  constructor(email: string, password: string) {
     super();
-    this.name = name;
+    this.email = email;
+    this.password = password;
   }
 }

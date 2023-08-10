@@ -103,35 +103,17 @@ export class BaseEntity {
 //     port: 3306,
 //     debug: true,
 //   };
-
 //   const mysql = new MySQL(access);
-
 //   /** Deleting the `users` table, if it exists */
 //   await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
-
-//   /** Creating a minimal user table */
+//   /* Creating a minimal user table */
 //   await mysql.queryResult(
-//     "CREATE TABLE `users` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
+//     "CREATE TABLE `users` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `email` VARCHAR(45) NOT NULL, `password` VARCHAR(100) NOT NULL, PRIMARY KEY (`id`), UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);"
 //   );
-
-//   /** Inserting some users */
-//   const [inserted] = await mysql.executeResult(
-//     "INSERT INTO `users`(`name`) VALUES(?), (?), (?), (?);",
-//     ["Josh", "John", "Marie", "Gween"]
-//   );
-
-//   console.log("Inserted:", inserted.affectedRows);
-
-//   /** Getting users */
-//   const [users] = await mysql.queryRows(
-//     "SELECT * FROM `users` ORDER BY `name` ASC;"
-//   );
-
-//   users.forEach((user) => {
-//     console.log("-----------");
-//     console.log("id:  ", user.id);
-//     console.log("name:", user.name);
-//   });
+//   /** Creating a minimal user table */
+//   // await mysql.queryResult22(
+//   //   "CREATE TABLE `users` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
+//   // );
 
 //   await mysql.connection.end();
 // })();
