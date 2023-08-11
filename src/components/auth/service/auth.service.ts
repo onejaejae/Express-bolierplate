@@ -9,6 +9,7 @@ import { createHash, isSameAsHash } from "../../../common/util/encrypt";
 import { LoginDTO } from "../dto/login.dto";
 import { TokenService } from "../../jwt/token.service";
 import { TokenPayload } from "../../jwt/dto/token-payload.dto";
+import { Role } from "../../../common/types/role/role.type";
 
 @Service()
 export class AuthService implements IAuthService {
@@ -49,7 +50,7 @@ export class AuthService implements IAuthService {
     if (user) throw new BadRequestException(`email: ${email} already exist`);
 
     const hashedPassword = await createHash(password);
-    const newUser = new User(email, hashedPassword);
+    const newUser = new User(email, hashedPassword, Role.MEMBER.enumName);
     return this.userRepository.create(newUser);
   }
 

@@ -3,6 +3,8 @@ import Container from "typedi";
 import { DependencyManager } from "../../loaders/dependency.manager";
 import { createPostPropertiesValidator } from "./validation/create.post.validation";
 import { CustomRequest } from "../../types/common";
+import { Role } from "../../common/types/role/role.type";
+import { RoleMiddleware } from "../../common/middleware/role.middleware";
 
 const postRouter: Router = Router();
 
@@ -10,6 +12,7 @@ const dependencyManager = Container.get(DependencyManager);
 
 const postController = dependencyManager.getPostController();
 const authGuard = dependencyManager.getAuthGuard();
+const roleGuard = dependencyManager.getRoleGuard();
 const parseIntPipe = dependencyManager.getParseIntPipe();
 
 postRouter.get(
@@ -33,6 +36,10 @@ postRouter.delete(
   "/:id",
   (req: Request, res: Response, next: NextFunction) =>
     authGuard.use(req, res, next),
+  (req: Request, res: Response, next: NextFunction) =>
+    new RoleMiddleware(Role.ADMIN).use(req, res, next),
+  (req: CustomRequest, res: Response, next: NextFunction) =>
+    roleGuard.use(req, res, next),
   (req: CustomRequest, res: Response, next: NextFunction) =>
     parseIntPipe.use(req, res, next),
   (req: CustomRequest, res: Response, next: NextFunction) =>

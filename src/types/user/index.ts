@@ -1,10 +1,17 @@
 import { Post } from "../../components/post/entity/post.entity";
-import { BaseEntity } from "../common";
+import { BaseEntity, Union } from "../common";
 
 export interface IUser extends BaseEntity {
   email: string;
   password: string;
+  role: RoleType;
 }
+
+export const RoleType = {
+  ADMIN: "admin",
+  MEMBER: "member",
+};
+export type RoleType = Union<typeof RoleType>;
 
 export interface IUserWithoutPassword extends Omit<IUser, "password"> {}
 

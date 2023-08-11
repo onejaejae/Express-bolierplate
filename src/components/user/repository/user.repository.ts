@@ -35,7 +35,7 @@ export class UserRepository extends BaseRepository<User> {
 
     const row = results[0];
 
-    const user = new UserJoinWithPost(row.email);
+    const user = new UserJoinWithPost(row.email, row.role);
     user.id = row.id;
 
     const posts = results
