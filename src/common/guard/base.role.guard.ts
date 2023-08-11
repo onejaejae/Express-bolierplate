@@ -10,20 +10,33 @@ import { CustomRequest } from "../../types/common";
 import { UnauthorizedException } from "../exception/unauthorization.exception";
 import { UserRepository } from "../../components/user/repository/user.repository";
 import { ForbiddenException } from "../exception/forbidden.exception";
+import { Logger } from "winston";
+import { PostRepository } from "../../components/post/repository/post.repository";
+import { BadRequestException } from "../exception/badRequest.exception";
 
 @Service()
-export class RoleGuard {
-  private logger;
+export abstract class BaseRoleGuard {
+  private logger: Logger;
 
-  constructor(
-    private readonly loggerService: WinstonConfigService,
-    private readonly userRepository: UserRepository
-  ) {
-    this.logger = loggerService.logger;
+  protected abstract readonly loggerService: WinstonConfigService;
+  protected abstract get userRepository(): UserRepository;
+  protected abstract get postRepository(): PostRepository;
+
+  constructor() {}
+
+  protected async isPostOwner(userId: number, postId: number) {
+    try {
+      const post = await this.postRepository.findByIdOrThrow(postId);
+
+      return post.authorId === userId;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async use(req: CustomRequest, _res: Response, next: NextFunction) {
+  protected async validateRole(req: CustomRequest, next: NextFunction) {
     try {
+      this.logger = this.loggerService.logger;
       const nameSpace = getNamespace(EXPRESS_NAMESPACE);
 
       if (!nameSpace || !nameSpace.active)
@@ -48,11 +61,18 @@ export class RoleGuard {
       if (!userRole) throw new UnauthorizedException("role 정보가 없습니다.");
 
       const isAllow = role.isEquals(userRole);
-      if (isAllow) next();
+
+      if (isAllow) return next();
 
       throw new ForbiddenException("권한이 없습니다.");
     } catch (error) {
-      next(error);
+      throw error;
     }
   }
+
+  abstract canActivate(
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void>;
 }

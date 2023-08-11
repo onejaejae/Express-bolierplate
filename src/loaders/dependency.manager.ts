@@ -11,7 +11,7 @@ import { ParseIntPipe } from "../common/pipe/parse.int.pipe";
 import AuthController from "../components/auth/controller/auth.controller";
 import { AuthGuard } from "../common/guard/auth.guard";
 import PostController from "../components/post/post.controller";
-import { RoleGuard } from "../common/guard/role.guard";
+import { PostOwnerRoleGuard } from "../common/guard/post.owner.role.guard";
 
 @Service()
 export class DependencyManager {
@@ -27,8 +27,8 @@ export class DependencyManager {
     return Container.get(AuthGuard);
   }
 
-  getRoleGuard(): RoleGuard {
-    return Container.get(RoleGuard);
+  getPostOwnerRoleGuard(): PostOwnerRoleGuard {
+    return Container.get(PostOwnerRoleGuard);
   }
 
   getLoggerMiddleware(): LoggerMiddleware {
