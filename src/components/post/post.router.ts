@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import Container from "typedi";
 import { DependencyManager } from "../../loaders/dependency.manager";
 import { createPostPropertiesValidator } from "./validation/create.post.validation";
+import { CustomRequest } from "../../types/common";
 
 const postRouter: Router = Router();
 
@@ -9,6 +10,15 @@ const dependencyManager = Container.get(DependencyManager);
 
 const postController = dependencyManager.getPostController();
 const authGuard = dependencyManager.getAuthGuard();
+const parseIntPipe = dependencyManager.getParseIntPipe();
+
+postRouter.get(
+  "/:id",
+  (req: CustomRequest, res: Response, next: NextFunction) =>
+    parseIntPipe.use(req, res, next),
+  (req: Request, res: Response, next: NextFunction) =>
+    postController.getPost(req, res, next)
+);
 
 postRouter.post(
   "/",
@@ -17,6 +27,16 @@ postRouter.post(
   createPostPropertiesValidator,
   (req: Request, res: Response, next: NextFunction) =>
     postController.createPost(req, res, next)
+);
+
+postRouter.delete(
+  "/:id",
+  (req: Request, res: Response, next: NextFunction) =>
+    authGuard.use(req, res, next),
+  (req: CustomRequest, res: Response, next: NextFunction) =>
+    parseIntPipe.use(req, res, next),
+  (req: CustomRequest, res: Response, next: NextFunction) =>
+    postController.deletePost(req, res, next)
 );
 
 export default postRouter;

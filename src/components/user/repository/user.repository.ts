@@ -21,7 +21,7 @@ export class UserRepository extends BaseRepository<User> {
     const query = `
       SELECT users.*, posts.title AS postTitle, posts.content AS postContent, posts.id AS postId
       FROM users
-      LEFT JOIN posts ON users.id = posts.authorId
+      LEFT JOIN posts ON users.id = posts.authorId AND posts.deletedAt IS NULL
       WHERE users.id = ?;
     `;
 

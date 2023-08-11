@@ -5,6 +5,7 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { TransactionManager } from "../transaction.manager";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
 import { BaseEntity } from "..";
+import { CountResult } from "../../../types/common";
 
 // that class only can be extended
 export abstract class BaseRepository<T extends BaseEntity>
@@ -32,6 +33,10 @@ export abstract class BaseRepository<T extends BaseEntity>
   }
 
   async update(item: T): Promise<boolean> {
+    const isSoftDeleted = await this.isSoftDeleted(item.id);
+    if (isSoftDeleted)
+      throw new BadRequestException(`id: ${item.id} deleted Item`);
+
     const id = item.id;
 
     const [result] = await this.connection.query<ResultSetHeader>(
@@ -41,9 +46,29 @@ export abstract class BaseRepository<T extends BaseEntity>
 
     return result.affectedRows > 0;
   }
-  delete(id: number): Promise<boolean> {
-    throw new Error("Method not implemented.");
+
+  async isSoftDeleted(id: number): Promise<any> {
+    const [result] = await this.connection.query<CountResult[]>(
+      `SELECT COUNT(*) as count FROM ${this.getName()} WHERE id = ? AND deletedAt IS NOT NULL`,
+      [id]
+    );
+
+    return result[0].count > 0;
   }
+
+  async softDelete(id: number): Promise<boolean> {
+    const isSoftDeleted = await this.isSoftDeleted(id);
+    if (isSoftDeleted)
+      throw new BadRequestException(`id: ${id} already deleted Item`);
+
+    const [result] = await this.connection.query<ResultSetHeader>(
+      `UPDATE ${this.getName()} SET deletedAt = NOW() WHERE id = ?`,
+      [id]
+    );
+
+    return result.affectedRows > 0;
+  }
+
   find(item: T): Promise<T[]> {
     throw new Error("Method not implemented.");
   }
@@ -58,7 +83,7 @@ export abstract class BaseRepository<T extends BaseEntity>
 
     const whereClause = keys.map((key) => `${key} = ?`).join(" AND ");
     const values = keys.map((key) => (filters as any)[key]);
-    const query = `SELECT * FROM ${this.getName()} WHERE ${whereClause} LIMIT 1`;
+    const query = `SELECT * FROM ${this.getName()} WHERE ${whereClause} AND deletedAt IS NULL LIMIT 1`;
 
     const [result] = await this.connection.query<RowDataPacket[]>(
       query,
@@ -69,7 +94,7 @@ export abstract class BaseRepository<T extends BaseEntity>
 
   async findByIdOrThrow(id: number): Promise<T> {
     const [result] = await this.connection.query<RowDataPacket[]>(
-      `SELECT * FROM ${this.getName()} WHERE id = ? LIMIT 1`,
+      `SELECT * FROM ${this.getName()} WHERE id = ? AND deletedAt IS NULL LIMIT 1`,
       [id]
     );
 

@@ -9,12 +9,21 @@ import { Transactional } from "../../common/decorator/transaction.decorator";
 class PostService implements IPostService {
   constructor(private readonly postRepository: PostRepository) {}
 
+  async getPost(postId: number) {
+    return this.postRepository.findByIdOrThrow(postId);
+  }
+
   @Transactional()
   async createPost(createPostDto: CreatePostDTO) {
     const { authorId, content, title } = createPostDto;
 
     const post = new Post(authorId, title, content);
     return this.postRepository.create(post);
+  }
+
+  @Transactional()
+  async deletePost(postId: number) {
+    return this.postRepository.softDelete(postId);
   }
 }
 

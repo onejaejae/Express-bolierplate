@@ -1,10 +1,15 @@
 import { Request } from "express";
+import { ResultSetHeader } from "mysql2";
 
 export interface BaseEntity {
   id: number;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
+}
+
+export interface CountResult extends ResultSetHeader {
+  count: number;
 }
 
 export interface JwtPayload {
