@@ -6,10 +6,10 @@ const util = {
       data,
     };
   },
-  fail: (status: number, message: string) => {
+  fail: (status: number, returnObj: Record<string, any>) => {
     return {
       status,
-      message,
+      ...returnObj,
     };
   },
 };

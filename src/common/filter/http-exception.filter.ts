@@ -30,6 +30,10 @@ export class HttpExceptionFilter {
       );
     }
 
-    response.send(util.fail(err.status || 500, err.message));
+    const returnObj: Record<string, any> = {
+      message: err.message,
+      stack: err.stack,
+    };
+    response.send(util.fail(err.status || 500, returnObj));
   }
 }

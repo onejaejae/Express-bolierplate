@@ -20,9 +20,13 @@ export class ForbiddenExceptionFilter {
         `${response.req.method} ${response.req.url}  Response: "success: false, msg: ${err.message}"`
       );
 
+      const returnObj: Record<string, any> = {
+        message: err.message,
+        stack: err.stack,
+      };
       return response
         .status(statusCode.UNAUTHORIZED)
-        .send(util.fail(statusCode.UNAUTHORIZED, err.message))
+        .send(util.fail(statusCode.UNAUTHORIZED, returnObj))
         .end();
     }
 
