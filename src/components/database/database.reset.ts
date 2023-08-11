@@ -5,8 +5,8 @@ const mysql = new ConnectMySQL();
 async function setupDatabase() {
   try {
     console.log("Deleting tables if they exist...");
-    await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
     await mysql.queryResult("DROP TABLE IF EXISTS `posts`;");
+    await mysql.queryResult("DROP TABLE IF EXISTS `users`;");
 
     console.log("Database setup completed.");
   } catch (error) {
