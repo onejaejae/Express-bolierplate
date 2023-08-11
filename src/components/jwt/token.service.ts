@@ -24,9 +24,10 @@ export class TokenService {
    * @description User를 받아 새로운 AccessToken 및 RefreshToken을 생성
    * @returns JWT TOKEN (Access, Refresh)
    */
-  async createToken(
-    payload: JwtPayload
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  createToken(payload: JwtPayload): {
+    accessToken: string;
+    refreshToken: string;
+  } {
     this.logger.info(
       `Create Token with id: ${payload.sub}, email:${payload.email}`
     );
@@ -63,17 +64,18 @@ export class TokenService {
     accessToken: string,
     refreshToken: string,
     payload: JwtPayload
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const accessVerify = this.jwtService.verify(accessToken);
-    const refreshVerify = this.jwtService.refreshVerify(
+    const refreshVerify = await this.jwtService.refreshVerify(
       refreshToken,
       parseInt(payload.sub, 10)
     );
 
     if (!refreshVerify)
-      throw new MethodNotAllowedException(
-        "RefreshToken이 이미 만료되었습니다."
-      );
+      throw new MethodNotAllowedException("RefreshToken invalid");
 
     if (accessVerify.success)
       throw new BadRequestException("Access Token이 유효합니다.");

@@ -2,11 +2,10 @@ import jwt from "jsonwebtoken";
 import { Service } from "typedi";
 import { ConfigService } from "../config/config.service";
 import { WinstonConfigService } from "../config/winston-config.service";
-import { UnauthorizedException } from "../../common/exception/unauthorization.exception";
 import { UserRepository } from "../user/repository/user.repository";
 import { Logger } from "winston";
 import { JwtPayload } from "../../types/common";
-import { NotFoundException } from "../../common/exception/notFound.exception";
+import { BadRequestException } from "../../common/exception/badRequest.exception";
 
 @Service()
 export class JwtService {
@@ -36,7 +35,12 @@ export class JwtService {
     });
   }
 
-  verify(token: string) {
+  verify(token: string):
+    | {
+        success: true;
+        id: string;
+      }
+    | { success: false; message: string } {
     try {
       const decoded = jwt.verify(token, this.jwtSecret) as JwtPayload;
       return {
@@ -75,7 +79,7 @@ export class JwtService {
         return false;
       }
     } else {
-      throw new NotFoundException(`RefreshToken이 존재하지 않습니다.`);
+      throw new BadRequestException("refreshToken 정보가 다릅니다");
     }
   }
 }

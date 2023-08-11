@@ -9,6 +9,7 @@ import { WinstonConfigService } from "../components/config/winston-config.servic
 import UserController from "../components/user/controller/user.controller";
 import { ParseIntPipe } from "../common/pipe/parse.int.pipe";
 import AuthController from "../components/auth/controller/auth.controller";
+import { AuthGuard } from "../common/guard/auth.guard";
 
 @Service()
 export class DependencyManager {
@@ -18,6 +19,10 @@ export class DependencyManager {
 
   getWinstonLoggerService(): WinstonConfigService {
     return Container.get(WinstonConfigService);
+  }
+
+  getAuthGuard(): AuthGuard {
+    return Container.get(AuthGuard);
   }
 
   getLoggerMiddleware(): LoggerMiddleware {

@@ -4,9 +4,12 @@ import { IRead } from "./interface/IRead";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { TransactionManager } from "../database/transaction.manager";
 import { BadRequestException } from "../../common/exception/badRequest.exception";
+import { BaseEntity } from "../database";
 
 // that class only can be extended
-export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
+export abstract class BaseRepository<T extends BaseEntity>
+  implements IWrite<T>, IRead<T>
+{
   protected abstract readonly txManager: TransactionManager;
 
   //we created constructor with arguments to manipulate mongodb operations
@@ -28,8 +31,15 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
     return result.affectedRows > 0;
   }
 
-  update(id: number, item: T): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async update(item: T): Promise<boolean> {
+    const id = item.id;
+
+    const [result] = await this.connection.query<ResultSetHeader>(
+      `UPDATE ${this.getName()} SET ? WHERE id = ?`,
+      [item, id]
+    );
+
+    return result.affectedRows > 0;
   }
   delete(id: number): Promise<boolean> {
     throw new Error("Method not implemented.");

@@ -3,12 +3,21 @@ import Container from "typedi";
 import { DependencyManager } from "../../../loaders/dependency.manager";
 import { signUpPropertiesValidator } from "../validation/signUp.validation";
 import { loginPropertiesValidator } from "../validation/login.validation";
+import { refreshPropertiesValidator } from "../validation/refresh.validator";
 
 const authRouter: Router = Router();
 
 const dependencyManager = Container.get(DependencyManager);
 
 const authController = dependencyManager.getAuthController();
+const authGuard = dependencyManager.getAuthGuard();
+
+authRouter.put(
+  "/refresh",
+  refreshPropertiesValidator,
+  (req: Request, res: Response, next: NextFunction) =>
+    authController.refresh(req, res, next)
+);
 
 authRouter.post(
   "/sign-up",

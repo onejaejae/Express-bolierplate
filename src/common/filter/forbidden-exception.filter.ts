@@ -15,9 +15,6 @@ export class ForbiddenExceptionFilter {
     response: Response,
     next: NextFunction
   ): Response<any, Record<string, any>> | void {
-    /**
-     * Handle 401 thrown by express-jwt library
-     */
     if (err.name === "UnauthorizedError") {
       this.loggerService.logger.error(
         `${response.req.method} ${response.req.url}  Response: "success: false, msg: ${err.message}"`

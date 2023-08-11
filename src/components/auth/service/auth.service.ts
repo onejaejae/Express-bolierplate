@@ -17,6 +17,30 @@ export class AuthService implements IAuthService {
     private readonly userRepository: UserRepository
   ) {}
 
+  async refresh(
+    accessToken: string,
+    refreshToken: string,
+    userId: string
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
+    const user = await this.userRepository.findByIdOrThrow(
+      parseInt(userId, 10)
+    );
+    const payload = new TokenPayload(userId, user.email);
+    const tokens = await this.tokenService.refresh(
+      accessToken,
+      refreshToken,
+      payload
+    );
+
+    user.refreshToken = tokens.refreshToken;
+    await this.userRepository.update(user);
+
+    return tokens;
+  }
+
   @Transactional()
   async signUp(createUserDTO: CreateUserDTO): Promise<boolean> {
     const { email, password } = createUserDTO;
@@ -29,7 +53,10 @@ export class AuthService implements IAuthService {
     return this.userRepository.create(newUser);
   }
 
-  async jwtLogin(loginDTO: LoginDTO): Promise<any> {
+  async jwtLogin(loginDTO: LoginDTO): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const { email, password } = loginDTO;
 
     const user = await this.findByEmail(email);
@@ -43,7 +70,12 @@ export class AuthService implements IAuthService {
       throw new BadRequestException(`password를 확인해주세요.`);
 
     const payloadDTO = new TokenPayload(user.id.toString(), user.email);
-    return this.tokenService.createToken(payloadDTO.toPlain());
+
+    const tokens = this.tokenService.createToken(payloadDTO.toPlain());
+
+    user.refreshToken = tokens.refreshToken;
+    await this.userRepository.update(user);
+    return tokens;
   }
 
   async findByEmail(email: string) {
