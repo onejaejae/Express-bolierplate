@@ -29,6 +29,7 @@ export class AuthGuard {
       if (!isVerify.success)
         throw new UnauthorizedException("AccessToken Invalid");
 
+      req.userId = parseInt(isVerify.id, 10);
       next();
     } catch (error) {
       next(error);

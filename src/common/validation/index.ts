@@ -11,9 +11,13 @@ export const validatorErrorChecker = (
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const returnObj = {
+      message: errors.array()[0].msg,
+    };
+
     return res
       .status(statusCode.BAD_REQUEST)
-      .send(util.fail(statusCode.BAD_REQUEST, errors.array()[0].msg));
+      .send(util.fail(statusCode.BAD_REQUEST, returnObj));
   }
   next();
 };

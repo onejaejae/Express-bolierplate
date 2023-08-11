@@ -1,10 +1,10 @@
 // we imported all types from mongodb driver, to use in code
-import { IWrite } from "./interface/IWrite";
-import { IRead } from "./interface/IRead";
+import { IWrite } from "../interface/IWrite";
+import { IRead } from "../interface/IRead";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { TransactionManager } from "../database/transaction.manager";
-import { BadRequestException } from "../../common/exception/badRequest.exception";
-import { BaseEntity } from "../database";
+import { TransactionManager } from "../transaction.manager";
+import { BadRequestException } from "../../../common/exception/badRequest.exception";
+import { BaseEntity } from "..";
 
 // that class only can be extended
 export abstract class BaseRepository<T extends BaseEntity>

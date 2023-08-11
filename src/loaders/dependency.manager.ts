@@ -10,6 +10,7 @@ import UserController from "../components/user/controller/user.controller";
 import { ParseIntPipe } from "../common/pipe/parse.int.pipe";
 import AuthController from "../components/auth/controller/auth.controller";
 import { AuthGuard } from "../common/guard/auth.guard";
+import PostController from "../components/post/post.controller";
 
 @Service()
 export class DependencyManager {
@@ -55,5 +56,9 @@ export class DependencyManager {
 
   getUserController(): UserController {
     return Container.get(UserController);
+  }
+
+  getPostController(): PostController {
+    return Container.get(PostController);
   }
 }

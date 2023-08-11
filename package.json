@@ -7,7 +7,9 @@
     "build": "npx tsc",
     "start": "node index.js",
     "dev": "NODE_ENV=local nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" ./src/index.ts",
-    "test": "jest --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles",
+    "schema:drop": "ts-node ./src/components/database/database.reset.ts",
+    "schema:sync": "ts-node ./src/components/database/database.setup.ts"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

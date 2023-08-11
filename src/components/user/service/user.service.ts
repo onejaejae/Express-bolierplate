@@ -10,6 +10,10 @@ class UserService implements IUserService {
   async getUser(uesrId: number): Promise<IGetUserResponse> {
     return this.userRepository.findByIdOrThrow(uesrId);
   }
+
+  async getUserWithPosts(uesrId: number): Promise<any> {
+    return this.userRepository.findByIdJoinWithPost(uesrId);
+  }
 }
 
 export default UserService;

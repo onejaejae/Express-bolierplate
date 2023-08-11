@@ -10,7 +10,6 @@ const authRouter: Router = Router();
 const dependencyManager = Container.get(DependencyManager);
 
 const authController = dependencyManager.getAuthController();
-const authGuard = dependencyManager.getAuthGuard();
 
 authRouter.put(
   "/refresh",

@@ -17,6 +17,18 @@ class UserController {
     const result = await this.userService.getUser(req.parsedId);
     return res.status(statusCode.OK).send(util.success(statusCode.OK, result));
   }
+
+  @tryCatch()
+  async getUserWithPosts(
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    if (!req.userId) throw new Error(`userId don't exist`);
+
+    const result = await this.userService.getUserWithPosts(req.userId);
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, result));
+  }
 }
 
 export default UserController;

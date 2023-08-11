@@ -6,6 +6,7 @@ import userRouter from "../components/user/router/user.router";
 import { ResponseError } from "../types/common";
 import { DependencyManager } from "./dependency.manager";
 import authRouter from "../components/auth/router/auth.router";
+import postRouter from "../components/post/post.router";
 
 export default (app: Express) => {
   const dependencyManager = Container.get(DependencyManager);
@@ -35,8 +36,10 @@ export default (app: Express) => {
     loggerMiddleware.use(req, res, next);
   });
 
+  // Set up API routes
   app.use("/api/auth", authRouter);
   app.use("/api/users", userRouter);
+  app.use("/api/posts", postRouter);
 
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {

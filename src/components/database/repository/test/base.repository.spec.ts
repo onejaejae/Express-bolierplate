@@ -1,15 +1,15 @@
 import { Pool, createPool } from "mysql2/promise";
-import { BaseEntity } from "../../database";
-import { TransactionManager } from "../../database/transaction.manager";
+import { BaseEntity } from "../..";
+import { TransactionManager } from "../../transaction.manager";
 import { BaseRepository } from "../base.repository";
 import { MySqlContainer, StartedMySqlContainer } from "testcontainers";
-import { InternalServerErrorException } from "../../../common/exception/internalServer.error.exception";
+import { InternalServerErrorException } from "../../../../common/exception/internalServer.error.exception";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../../common/middleware/namespace.const";
+} from "../../../../common/middleware/namespace.const";
 import { createNamespace } from "cls-hooked";
-import { BadRequestException } from "../../../common/exception/badRequest.exception";
+import { BadRequestException } from "../../../../common/exception/badRequest.exception";
 
 class Mock extends BaseEntity {
   name: string;

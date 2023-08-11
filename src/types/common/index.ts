@@ -13,5 +13,6 @@ export class ResponseError extends Error {
   status?: number;
 }
 export interface CustomRequest extends Request {
+  userId?: number;
   parsedId?: number;
 }
