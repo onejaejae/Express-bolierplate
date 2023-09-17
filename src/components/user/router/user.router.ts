@@ -1,6 +1,5 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Response, NextFunction } from "express";
 import Container from "typedi";
-import { getUserPropertiesValidator } from "../validation";
 import { DependencyManager } from "../../../loaders/dependency.manager";
 import { CustomRequest } from "../../../types/common";
 
@@ -22,7 +21,6 @@ userRouter.get(
 
 userRouter.get(
   "/:id",
-  getUserPropertiesValidator,
   (req: CustomRequest, res: Response, next: NextFunction) =>
     parseIntPipe.use(req, res, next),
   (req: CustomRequest, res: Response, next: NextFunction) =>

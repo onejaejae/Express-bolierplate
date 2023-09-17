@@ -19,10 +19,9 @@ export const RoleType = {
 };
 export type RoleType = Union<typeof RoleType>;
 
-export interface IUserWithoutCertification
-  extends Omit<IUser, "password" | "refreshToken"> {}
+export interface IUserWithoutPassword extends Omit<IUser, "password"> {}
 
-export interface IUserJoinWithPost extends IUserWithoutCertification {
+export interface IUserJoinWithPost extends IUserWithoutPassword {
   posts: IJoinedPost[];
 }
 

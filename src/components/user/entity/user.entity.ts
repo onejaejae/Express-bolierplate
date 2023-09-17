@@ -15,7 +15,6 @@ export class User extends BaseEntity implements IUser {
   @Exclude()
   password: string;
 
-  @Exclude()
   refreshToken: string;
 
   role: RoleType;
@@ -61,6 +60,7 @@ export class GenerateUserJoinWithPost extends User {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,
+      refreshToken: this.refreshToken,
       posts: [],
     };
     return user;

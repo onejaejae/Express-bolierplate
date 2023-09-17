@@ -2,14 +2,15 @@ import { Service } from "typedi";
 import { Transactional } from "../../../common/decorator/transaction.decorator";
 import { IAuthService } from "../interface/auth-service.interface";
 import { UserRepository } from "../../user/repository/user.repository";
-import { CreateUserDTO } from "../../user/dto/create.user.dto";
 import { User } from "../../user/entity/user.entity";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
-import { LoginDTO } from "../dto/login.dto";
 import { TokenService } from "../../jwt/token.service";
 import { TokenPayload } from "../../jwt/dto/token-payload.dto";
 import { Role } from "../../../common/types/role/role.type";
 import { Bcrypt } from "../../../common/util/encrypt";
+import { RefreshTokenDto } from "../dto/refresh.dto";
+import { SignUpDto } from "../dto/signUp.dto";
+import { LoginDto } from "../dto/login.dto";
 
 @Service()
 export class AuthService implements IAuthService {
@@ -19,18 +20,15 @@ export class AuthService implements IAuthService {
     private readonly bcrypt: Bcrypt
   ) {}
 
-  async refresh(
-    accessToken: string,
-    refreshToken: string,
-    userId: string
-  ): Promise<{
+  async refresh(refreshTokenDto: RefreshTokenDto): Promise<{
     accessToken: string;
     refreshToken: string;
   }> {
-    const user = await this.userRepository.findByIdOrThrow(
-      parseInt(userId, 10)
-    );
-    const payload = new TokenPayload(userId, user.email);
+    const { userId, accessToken, refreshToken } = refreshTokenDto;
+
+    const user = await this.userRepository.findByIdOrThrow(userId);
+
+    const payload = new TokenPayload(userId.toString(), user.email);
     const tokens = await this.tokenService.refresh(
       accessToken,
       refreshToken,
@@ -44,8 +42,8 @@ export class AuthService implements IAuthService {
   }
 
   @Transactional()
-  async signUp(createUserDTO: CreateUserDTO): Promise<boolean> {
-    const { email, password } = createUserDTO;
+  async signUp(signUpDto: SignUpDto): Promise<boolean> {
+    const { email, password } = signUpDto;
 
     const user = await this.userRepository.findOne({ email });
     if (user)
@@ -60,7 +58,7 @@ export class AuthService implements IAuthService {
     return this.userRepository.create(newUser);
   }
 
-  async jwtLogin(loginDTO: LoginDTO): Promise<{
+  async jwtLogin(loginDTO: LoginDto): Promise<{
     accessToken: string;
     refreshToken: string;
   }> {

@@ -7,11 +7,11 @@ import { BadRequestException } from "../exception/badRequest.exception";
 export class ParseIntPipe {
   use(req: CustomRequest, _res: Response, next: NextFunction) {
     const { id } = req.params;
+
+    if (!id) throw new BadRequestException(`id must be need`);
     const parsedId = parseInt(id, 10);
 
-    if (isNaN(parsedId)) {
-      throw new BadRequestException(`Invalid id: ${id}`);
-    }
+    if (isNaN(parsedId)) throw new BadRequestException(`Invalid id: ${id}`);
 
     req.parsedId = parsedId;
     next();
