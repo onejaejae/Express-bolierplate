@@ -1,7 +1,8 @@
-import { Exclude } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import { IUserJoinWithPost, RoleType } from "../../../types/user";
 import { BaseEntity } from "../../database/base.entity";
 import { Post } from "../../post/entity/post.entity";
+import { Bcrypt } from "../../../common/util/encrypt";
 
 export class User extends BaseEntity {
   email: string;
@@ -37,9 +38,23 @@ export class UserJoinWithPost
   extends UserWithoutPassword
   implements IUserJoinWithPost
 {
+  @Type(() => Post)
   posts: Post[];
+}
 
-  constructor(email: string, role: RoleType) {
-    super(email, role);
+export class UserWithPassword extends BaseEntity {
+  password: string;
+  email: string;
+  role: RoleType;
+
+  @Exclude()
+  refreshToken: string;
+
+  isPasswordValid(inputPwd: string, bcrypt: Bcrypt) {
+    return bcrypt.isSameAsHash(inputPwd, this.password);
+  }
+
+  hashedPassword(password: string, bcrypt: Bcrypt) {
+    return bcrypt.createHash(password);
   }
 }

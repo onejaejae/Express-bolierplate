@@ -5,17 +5,18 @@ import { UserRepository } from "../../user/repository/user.repository";
 import { CreateUserDTO } from "../../user/dto/create.user.dto";
 import { User } from "../../user/entity/user.entity";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
-import { createHash, isSameAsHash } from "../../../common/util/encrypt";
 import { LoginDTO } from "../dto/login.dto";
 import { TokenService } from "../../jwt/token.service";
 import { TokenPayload } from "../../jwt/dto/token-payload.dto";
 import { Role } from "../../../common/types/role/role.type";
+import { Bcrypt } from "../../../common/util/encrypt";
 
 @Service()
 export class AuthService implements IAuthService {
   constructor(
     private readonly tokenService: TokenService,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly bcrypt: Bcrypt
   ) {}
 
   async refresh(
@@ -46,10 +47,9 @@ export class AuthService implements IAuthService {
   async signUp(createUserDTO: CreateUserDTO): Promise<boolean> {
     const { email, password } = createUserDTO;
 
-    const user = await this.findByEmail(email);
-    if (user) throw new BadRequestException(`email: ${email} already exist`);
+    const user = await this.userRepository.findByEmailOrThrow(email);
+    const hashedPassword = await user.hashedPassword(password, this.bcrypt);
 
-    const hashedPassword = await createHash(password);
     const newUser = new User(
       email,
       hashedPassword,
@@ -64,15 +64,10 @@ export class AuthService implements IAuthService {
   }> {
     const { email, password } = loginDTO;
 
-    const user = await this.findByEmail(email);
-    if (!user) throw new BadRequestException(`email: ${email} don't exist`);
-
-    const isPasswordValid: boolean = await this.isPasswordValidate(
-      password,
-      user.password
-    );
+    const user = await this.userRepository.findByEmailOrThrow(email);
+    const isPasswordValid = await user.isPasswordValid(password, this.bcrypt);
     if (!isPasswordValid)
-      throw new BadRequestException(`password를 확인해주세요.`);
+      throw new BadRequestException(`user passwond invalid`);
 
     const payloadDTO = new TokenPayload(user.id.toString(), user.email);
     const tokens = this.tokenService.createToken(payloadDTO.toPlain());
@@ -81,19 +76,6 @@ export class AuthService implements IAuthService {
     await this.userRepository.update(user);
 
     return tokens;
-  }
-
-  async findByEmail(email: string) {
-    return this.userRepository.findOne({
-      email,
-    });
-  }
-
-  async isPasswordValidate(
-    plainPassword: string,
-    hashedPassword: string
-  ): Promise<boolean> {
-    return isSameAsHash(plainPassword, hashedPassword);
   }
 }
 
