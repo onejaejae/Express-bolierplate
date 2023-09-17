@@ -1,16 +1,12 @@
 import { Service } from "typedi";
 import { TokenService } from "../../components/jwt/token.service";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { UnauthorizedException } from "../exception/unauthorization.exception";
-import { UserRepository } from "../../components/user/repository/user.repository";
 import { CustomRequest } from "../../types/common";
 
 @Service()
 export class AuthGuard {
-  constructor(
-    private readonly tokenService: TokenService,
-    private readonly userRepository: UserRepository
-  ) {}
+  constructor(private readonly tokenService: TokenService) {}
 
   async use(req: CustomRequest, _res: Response, next: NextFunction) {
     try {

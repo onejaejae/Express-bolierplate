@@ -24,7 +24,7 @@ export class ValidationExceptionFilter {
     response: Response,
     next: NextFunction
   ): Response<any, Record<string, any>> | void {
-    if (!(err instanceof ValidationError)) return next();
+    if (!(err instanceof ValidationError)) return next(err);
 
     response.status(statusCode.BAD_REQUEST);
     if (this.env !== "production") {

@@ -1,5 +1,5 @@
-import { body, param } from "express-validator";
-import { validatorErrorChecker } from "../../../common/validation";
+import { param } from "express-validator";
+import { validatorErrorChecker } from "../../../common/validation/validation.error.check";
 
 export const getUserPropertiesValidator = [
   param("id")

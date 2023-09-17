@@ -12,8 +12,8 @@ import AuthController from "../components/auth/controller/auth.controller";
 import { AuthGuard } from "../common/guard/auth.guard";
 import PostController from "../components/post/post.controller";
 import { PostOwnerRoleGuard } from "../common/guard/post.owner.role.guard";
-import { ValidationMiddleware } from "../common/middleware/validation.middleware";
 import { ValidationExceptionFilter } from "../common/filter/validation-exception.filter";
+import { ValidationMiddleware } from "../common/middleware/validation.middleware";
 
 @Service()
 export class DependencyManager {
