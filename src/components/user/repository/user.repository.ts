@@ -14,7 +14,7 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   constructor(protected readonly txManager: TransactionManager) {
-    super();
+    super(User);
   }
 
   async findByIdJoinWithPost(userId: number): Promise<IUserJoinWithPost> {

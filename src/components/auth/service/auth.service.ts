@@ -50,7 +50,11 @@ export class AuthService implements IAuthService {
     if (user) throw new BadRequestException(`email: ${email} already exist`);
 
     const hashedPassword = await createHash(password);
-    const newUser = new User(email, hashedPassword, Role.MEMBER.enumName);
+    const newUser = new User(
+      email,
+      hashedPassword,
+      Role.MEMBER.enumName.toLocaleLowerCase()
+    );
     return this.userRepository.create(newUser);
   }
 

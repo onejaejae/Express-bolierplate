@@ -1,14 +1,15 @@
 import { IWrite } from "../interface/IWrite";
 import { IRead } from "../interface/IRead";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
-import { BaseEntity } from "..";
 import { MySQL } from "./abstract.repository";
+import { BaseEntity } from "../base.entity";
+import { ClassConstructor, plainToInstance } from "class-transformer";
 
 export abstract class BaseRepository<T extends BaseEntity>
   extends MySQL
   implements IWrite<T>, IRead<T>
 {
-  constructor() {
+  constructor(private readonly classType: ClassConstructor<T>) {
     super();
   }
 
@@ -76,7 +77,9 @@ export abstract class BaseRepository<T extends BaseEntity>
     const query = `SELECT * FROM ${this.getName()} WHERE ${whereClause} AND deletedAt IS NULL LIMIT 1`;
 
     const [result] = await this.queryRows(query, values);
-    return result.length > 0 ? (result[0] as T) : null;
+    return result.length > 0
+      ? plainToInstance(this.classType, result[0])
+      : null;
   }
 
   async findByIdOrThrow(id: number): Promise<T> {
@@ -89,6 +92,6 @@ export abstract class BaseRepository<T extends BaseEntity>
       throw new BadRequestException(`Item with id ${id} not found.`);
     }
 
-    return result[0] as T;
+    return plainToInstance(this.classType, result[0]);
   }
 }

@@ -1,18 +1,24 @@
+import { Exclude } from "class-transformer";
 import { IUserJoinWithPost, RoleType } from "../../../types/user";
-import { BaseEntity } from "../../database";
+import { BaseEntity } from "../../database/base.entity";
 import { Post } from "../../post/entity/post.entity";
 
 export class User extends BaseEntity {
   email: string;
+
+  @Exclude()
   password: string;
+
+  @Exclude()
   refreshToken: string;
+
   role: RoleType;
 
   constructor(email: string, password: string, role: RoleType) {
     super();
     this.email = email;
     this.password = password;
-    this.role = role.toLowerCase();
+    this.role = role;
   }
 }
 

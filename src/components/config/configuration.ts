@@ -2,12 +2,14 @@ import { InternalServerErrorException } from "../../common/exception/internalSer
 import { Configurations } from "../../types/config";
 import dotenv from "dotenv";
 
-const envFound = dotenv.config({ path: `dotenv/.env.${process.env.NODE_ENV}` });
-if (envFound.error) {
-  throw new InternalServerErrorException("⚠️  Couldn't find .env file  ⚠️");
-}
-
 export const configurations = (): Configurations => {
+  const envFound = dotenv.config({
+    path: `dotenv/.env.${process.env.NODE_ENV}`,
+  });
+  if (envFound.error) {
+    throw new InternalServerErrorException("⚠️  Couldn't find .env file  ⚠️");
+  }
+
   const currentEnv = process.env.NODE_ENV || "local";
 
   return {

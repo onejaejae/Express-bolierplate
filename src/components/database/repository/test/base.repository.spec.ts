@@ -1,5 +1,5 @@
 import { Pool, createPool } from "mysql2/promise";
-import { BaseEntity } from "../..";
+import { BaseEntity } from "../../module";
 import { TransactionManager } from "../../transaction.manager";
 import { BaseRepository } from "../base.repository";
 import { MySqlContainer, StartedMySqlContainer } from "testcontainers";

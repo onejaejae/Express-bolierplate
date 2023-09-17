@@ -1,4 +1,4 @@
-import { BaseEntity } from "../../database";
+import { BaseEntity } from "../../database/base.entity";
 
 export class Post extends BaseEntity {
   authorId: number;

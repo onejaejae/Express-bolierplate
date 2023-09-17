@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { createNamespace, getNamespace } from "cls-hooked";
 import { EXPRESS_ENTITY_MANAGER, EXPRESS_NAMESPACE } from "./namespace.const";
 import { Service } from "typedi";
-import { ConnectMySQL } from "../../components/database";
+import { MySQLModule } from "../../components/database/module/mysql.module";
 
 @Service()
 export class TransactionMiddleware {
-  constructor(private readonly mysql: ConnectMySQL) {}
+  constructor(private readonly mysql: MySQLModule) {}
 
   use(_req: Request, _res: Response, next: NextFunction) {
     const namespace =

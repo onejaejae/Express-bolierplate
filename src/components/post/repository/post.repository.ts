@@ -10,6 +10,6 @@ export class PostRepository extends BaseRepository<Post> {
   }
 
   constructor(protected readonly txManager: TransactionManager) {
-    super();
+    super(Post);
   }
 }
