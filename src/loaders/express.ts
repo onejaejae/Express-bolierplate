@@ -16,6 +16,8 @@ export default (app: Express) => {
   const configService = dependencyManager.getConfigService();
   const notFoundExceptionFilter =
     dependencyManager.getNotFoundExceptionFilter();
+  const validationExceptionFilter =
+    dependencyManager.getValidationExceptionFilter();
   const forbiddenExceptionFilter =
     dependencyManager.getForbiddenExceptionFilter();
   const httpExceptionFilter = dependencyManager.getHttpExceptionFilter();
@@ -50,6 +52,13 @@ export default (app: Express) => {
   app.use(
     (err: ResponseError, req: Request, res: Response, next: NextFunction) => {
       forbiddenExceptionFilter.use(err, req, res, next);
+    }
+  );
+
+  /// validation error handlers
+  app.use(
+    (err: ResponseError, req: Request, res: Response, next: NextFunction) => {
+      validationExceptionFilter.use(err, req, res, next);
     }
   );
 

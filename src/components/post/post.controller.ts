@@ -24,10 +24,7 @@ class PostController {
   async createPost(req: CustomRequest, res: Response, next: NextFunction) {
     if (!req.userId) throw new BadRequestException("don't exist userId");
 
-    const { title, content } = req.body;
-    const createPostDto = new CreatePostDTO(req.userId, title, content);
-
-    await this.postService.createPost(createPostDto);
+    await this.postService.createPost(req.body);
     return res
       .status(statusCode.CREATED)
       .send(util.success(statusCode.CREATED));

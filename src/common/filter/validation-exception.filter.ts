@@ -2,12 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { Service } from "typedi";
 import { ResponseError } from "../../types/common";
 import statusCode from "../constant/statusCode";
-import { WinstonConfigService } from "../../components/config/winston-config.service";
 import util from "../util/response.util";
+import { ValidationError } from "class-validator";
 import { ConfigService } from "../../components/config/config.service";
+import { WinstonConfigService } from "../../components/config/winston-config.service";
 
 @Service()
-export class HttpExceptionFilter {
+export class ValidationExceptionFilter {
   private env;
 
   constructor(
@@ -21,19 +22,25 @@ export class HttpExceptionFilter {
     err: ResponseError,
     _request: Request,
     response: Response,
-    _next: NextFunction
+    next: NextFunction
   ): Response<any, Record<string, any>> | void {
-    response.status(err.status || statusCode.INTERNAL_SERVER_ERROR);
+    if (!(err instanceof ValidationError)) return next();
+
+    response.status(statusCode.BAD_REQUEST);
     if (this.env !== "production") {
       this.loggerService.logger.error(
-        `${response.req.method} ${response.req.url} ${err.status} ${err.stack} Response: "success: false, msg: ${err.message}"`
+        `${response.req.method} ${response.req.url} ${statusCode.BAD_REQUEST} ${err.target} Response: "success: false, msg: validation Error property: ${err.property}"`
       );
     }
 
     const returnObj: Record<string, any> = {
-      message: err.message,
-      stack: err.stack,
+      target: err.target,
+      property: err.property,
+      value: err.value,
+      constraints: err.constraints,
     };
-    response.send(util.fail(err.status || 500, returnObj));
+    if (err.children && err.children.length > 0)
+      returnObj.children = err.children;
+    response.send(util.fail(statusCode.BAD_REQUEST, returnObj));
   }
 }

@@ -1,11 +1,12 @@
-export class CreatePostDTO {
-  readonly authorId: number;
-  readonly title: string;
-  readonly content: string;
+import { IsNumber, IsString } from "class-validator";
 
-  constructor(authorId: number, title: string, content: string) {
-    this.authorId = authorId;
-    this.title = title;
-    this.content = content;
-  }
+export class CreatePostDTO {
+  @IsNumber()
+  readonly authorId: number;
+
+  @IsString()
+  readonly title: string;
+
+  @IsString()
+  readonly content: string;
 }

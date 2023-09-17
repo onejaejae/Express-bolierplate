@@ -1,16 +1,17 @@
 import { Router, Request, Response, NextFunction } from "express";
 import Container from "typedi";
 import { DependencyManager } from "../../loaders/dependency.manager";
-import { createPostPropertiesValidator } from "./validation/create.post.validation";
 import { CustomRequest } from "../../types/common";
 import { Role } from "../../common/types/role/role.type";
 import { RoleMiddleware } from "../../common/middleware/role.middleware";
+import { CreatePostDTO } from "./dto/create.post.dto";
 
 const postRouter: Router = Router();
 
 const dependencyManager = Container.get(DependencyManager);
 
 const postController = dependencyManager.getPostController();
+const validationMiddleware = dependencyManager.getValidationMiddleware();
 const authGuard = dependencyManager.getAuthGuard();
 const postOwnerRoleGuard = dependencyManager.getPostOwnerRoleGuard();
 const parseIntPipe = dependencyManager.getParseIntPipe();
@@ -27,7 +28,8 @@ postRouter.post(
   "/",
   (req: Request, res: Response, next: NextFunction) =>
     authGuard.use(req, res, next),
-  createPostPropertiesValidator,
+  (req: Request, res: Response, next: NextFunction) =>
+    validationMiddleware.use(req, res, next, CreatePostDTO),
   (req: Request, res: Response, next: NextFunction) =>
     postController.createPost(req, res, next)
 );

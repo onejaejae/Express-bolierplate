@@ -12,11 +12,17 @@ import AuthController from "../components/auth/controller/auth.controller";
 import { AuthGuard } from "../common/guard/auth.guard";
 import PostController from "../components/post/post.controller";
 import { PostOwnerRoleGuard } from "../common/guard/post.owner.role.guard";
+import { ValidationMiddleware } from "../common/middleware/validation.middleware";
+import { ValidationExceptionFilter } from "../common/filter/validation-exception.filter";
 
 @Service()
 export class DependencyManager {
   getTransactionMiddleware(): TransactionMiddleware {
     return Container.get(TransactionMiddleware);
+  }
+
+  getValidationMiddleware(): ValidationMiddleware {
+    return Container.get(ValidationMiddleware);
   }
 
   getWinstonLoggerService(): WinstonConfigService {
@@ -45,6 +51,10 @@ export class DependencyManager {
 
   getForbiddenExceptionFilter(): ForbiddenExceptionFilter {
     return Container.get(ForbiddenExceptionFilter);
+  }
+
+  getValidationExceptionFilter(): ValidationExceptionFilter {
+    return Container.get(ValidationExceptionFilter);
   }
 
   getHttpExceptionFilter(): HttpExceptionFilter {
