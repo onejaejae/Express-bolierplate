@@ -1,31 +1,21 @@
-// we imported all types from mongodb driver, to use in code
 import { IWrite } from "../interface/IWrite";
 import { IRead } from "../interface/IRead";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { TransactionManager } from "../transaction.manager";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
 import { BaseEntity } from "..";
-import { CountResult } from "../../../types/common";
+import { MySQL } from "./abstract.repository";
 
-// that class only can be extended
 export abstract class BaseRepository<T extends BaseEntity>
+  extends MySQL
   implements IWrite<T>, IRead<T>
 {
-  protected abstract readonly txManager: TransactionManager;
-
-  //we created constructor with arguments to manipulate mongodb operations
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   abstract getName(): string;
 
-  get connection() {
-    return this.txManager.getConnectionManager();
-  }
-
-  // we add to method, the async keyword to manipulate the insertOne result
-  // of method.
-  async create(item: T): Promise<boolean> {
-    const [result] = await this.connection.query<ResultSetHeader>(
+  async create(item: T): Promise<any> {
+    const [result] = await this.queryResult(
       `INSERT INTO ${this.getName()} SET ?`,
       item
     );
@@ -39,7 +29,7 @@ export abstract class BaseRepository<T extends BaseEntity>
 
     const id = item.id;
 
-    const [result] = await this.connection.query<ResultSetHeader>(
+    const [result] = await this.queryResult(
       `UPDATE ${this.getName()} SET ? WHERE id = ?`,
       [item, id]
     );
@@ -47,8 +37,8 @@ export abstract class BaseRepository<T extends BaseEntity>
     return result.affectedRows > 0;
   }
 
-  async isSoftDeleted(id: number): Promise<any> {
-    const [result] = await this.connection.query<CountResult[]>(
+  async isSoftDeleted(id: number): Promise<boolean> {
+    const [result] = await this.queryCount(
       `SELECT COUNT(*) as count FROM ${this.getName()} WHERE id = ? AND deletedAt IS NOT NULL`,
       [id]
     );
@@ -61,7 +51,7 @@ export abstract class BaseRepository<T extends BaseEntity>
     if (isSoftDeleted)
       throw new BadRequestException(`id: ${id} already deleted Item`);
 
-    const [result] = await this.connection.query<ResultSetHeader>(
+    const [result] = await this.queryResult(
       `UPDATE ${this.getName()} SET deletedAt = NOW() WHERE id = ?`,
       [id]
     );
@@ -85,15 +75,12 @@ export abstract class BaseRepository<T extends BaseEntity>
     const values = keys.map((key) => (filters as any)[key]);
     const query = `SELECT * FROM ${this.getName()} WHERE ${whereClause} AND deletedAt IS NULL LIMIT 1`;
 
-    const [result] = await this.connection.query<RowDataPacket[]>(
-      query,
-      values
-    );
+    const [result] = await this.queryRows(query, values);
     return result.length > 0 ? (result[0] as T) : null;
   }
 
   async findByIdOrThrow(id: number): Promise<T> {
-    const [result] = await this.connection.query<RowDataPacket[]>(
+    const [result] = await this.queryRows(
       `SELECT * FROM ${this.getName()} WHERE id = ? AND deletedAt IS NULL LIMIT 1`,
       [id]
     );

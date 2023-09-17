@@ -71,11 +71,11 @@ export class AuthService implements IAuthService {
       throw new BadRequestException(`password를 확인해주세요.`);
 
     const payloadDTO = new TokenPayload(user.id.toString(), user.email);
-
     const tokens = this.tokenService.createToken(payloadDTO.toPlain());
 
     user.refreshToken = tokens.refreshToken;
     await this.userRepository.update(user);
+
     return tokens;
   }
 
