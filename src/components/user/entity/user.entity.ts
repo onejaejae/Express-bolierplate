@@ -1,10 +1,15 @@
 import { Exclude, Type } from "class-transformer";
-import { IUserJoinWithPost, RoleType } from "../../../types/user";
+import {
+  IJoinedPost,
+  IUser,
+  IUserJoinWithPost,
+  RoleType,
+} from "../../../types/user";
 import { BaseEntity } from "../../database/base.entity";
-import { Post } from "../../post/entity/post.entity";
 import { Bcrypt } from "../../../common/util/encrypt";
+import { Post } from "../../post/entity/post.entity";
 
-export class User extends BaseEntity {
+export class User extends BaseEntity implements IUser {
   email: string;
 
   @Exclude()
@@ -23,23 +28,43 @@ export class User extends BaseEntity {
   }
 }
 
-export class UserWithoutPassword extends BaseEntity {
-  email: string;
-  role: RoleType;
-
-  constructor(email: string, role: RoleType) {
-    super();
-    this.email = email;
-    this.role = role;
-  }
+export class JoinedPost implements IJoinedPost {
+  postTitle: string;
+  postContent: string;
+  postId: number;
 }
 
-export class UserJoinWithPost
-  extends UserWithoutPassword
-  implements IUserJoinWithPost
-{
+export class UserJoinWithPost extends User {
   @Type(() => Post)
   posts: Post[];
+}
+
+export class GenerateUserJoinWithPost extends User {
+  postId: number;
+  postTitle: string;
+  postContent: string;
+
+  generatePost() {
+    const post: IJoinedPost = {
+      postId: this.postId,
+      postTitle: this.postTitle,
+      postContent: this.postContent,
+    };
+    return post;
+  }
+
+  generateUser() {
+    const user: IUserJoinWithPost = {
+      id: this.id,
+      email: this.email,
+      role: this.role,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      deletedAt: this.deletedAt,
+      posts: [],
+    };
+    return user;
+  }
 }
 
 export class UserWithPassword extends BaseEntity {
@@ -52,9 +77,5 @@ export class UserWithPassword extends BaseEntity {
 
   isPasswordValid(inputPwd: string, bcrypt: Bcrypt) {
     return bcrypt.isSameAsHash(inputPwd, this.password);
-  }
-
-  hashedPassword(password: string, bcrypt: Bcrypt) {
-    return bcrypt.createHash(password);
   }
 }

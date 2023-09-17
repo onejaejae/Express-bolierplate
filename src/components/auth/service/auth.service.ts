@@ -47,9 +47,11 @@ export class AuthService implements IAuthService {
   async signUp(createUserDTO: CreateUserDTO): Promise<boolean> {
     const { email, password } = createUserDTO;
 
-    const user = await this.userRepository.findByEmailOrThrow(email);
-    const hashedPassword = await user.hashedPassword(password, this.bcrypt);
+    const user = await this.userRepository.findOne({ email });
+    if (user)
+      throw new BadRequestException(`user email: ${email} already exist`);
 
+    const hashedPassword = await this.bcrypt.createHash(password);
     const newUser = new User(
       email,
       hashedPassword,

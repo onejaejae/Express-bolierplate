@@ -5,6 +5,7 @@ import statusCode from "../../../common/constant/statusCode";
 import util from "../../../common/util/response.util";
 import { tryCatch } from "../../../common/decorator/try-catch.decorator";
 import { CustomRequest } from "../../../types/common";
+import { instanceToPlain } from "class-transformer";
 
 @Service()
 class UserController {
@@ -27,7 +28,8 @@ class UserController {
     if (!req.userId) throw new Error(`userId don't exist`);
 
     const result = await this.userService.getUserWithPosts(req.userId);
-    return res.status(statusCode.OK).send(util.success(statusCode.OK, result));
+    const test = instanceToPlain(result);
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, test));
   }
 }
 

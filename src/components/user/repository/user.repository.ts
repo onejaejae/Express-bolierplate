@@ -2,13 +2,13 @@ import { Service } from "typedi";
 import { BaseRepository } from "../../database/repository/base.repository";
 import {
   User,
-  UserJoinWithPost,
+  GenerateUserJoinWithPost,
   UserWithPassword,
+  UserJoinWithPost,
 } from "../entity/user.entity";
 import { TransactionManager } from "../../database/transaction.manager";
-import { IUserJoinWithPost } from "../../../types/user";
 import { BadRequestException } from "../../../common/exception/badRequest.exception";
-import { TransformPlainToInstance } from "class-transformer";
+import { TransformPlainToInstance, plainToClass } from "class-transformer";
 
 @Service()
 export class UserRepository extends BaseRepository<User> {
@@ -33,7 +33,7 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   @TransformPlainToInstance(UserJoinWithPost)
-  async findByIdJoinWithPost(userId: number): Promise<IUserJoinWithPost> {
+  async findByIdJoinWithPost(userId: number): Promise<UserJoinWithPost> {
     const query = `
       SELECT users.*, posts.title AS postTitle, posts.content AS postContent, posts.id AS postId
       FROM users
@@ -42,27 +42,18 @@ export class UserRepository extends BaseRepository<User> {
     `;
 
     const [results] = await this.queryRows(query, [userId]);
-
     if (results.length === 0) {
       throw new BadRequestException(`userId: ${userId} don't exist`);
     }
 
-    return results[0] as any;
-    // const row = results[0];
+    const userWithPosts: GenerateUserJoinWithPost[] = results.map((res) =>
+      plainToClass(GenerateUserJoinWithPost, res)
+    );
 
-    // const user = new UserJoinWithPost(row.email, row.role);
-    // user.id = row.id;
+    const user = userWithPosts[0].generateUser();
+    const posts = userWithPosts.map((user) => user.generatePost());
+    user.posts = posts;
 
-    // const posts = results
-    //   .filter((row) => row.postId)
-    //   .map((row) => {
-    //     const post = new Post(user.id, row.postTitle, row.postContent);
-    //     post.id = row.postId;
-
-    //     return post;
-    //   });
-
-    // user.posts = posts;
-    // return user;
+    return user as any;
   }
 }
