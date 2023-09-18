@@ -1,4 +1,4 @@
-import { ClassConstructor } from "class-transformer/types/interfaces";
+import { ClassConstructor } from "class-transformer";
 
 export abstract class ExecutionContext<T> {
   constructor(private readonly classType: ClassConstructor<T>) {}

@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { WinstonConfigService } from "../../components/config/winston-config.service";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { Role } from "../types/role/role.type";
 import { getNamespace } from "cls-hooked";
 import { EXPRESS_NAMESPACE } from "../middleware/namespace.const";
@@ -12,16 +12,16 @@ import { UserRepository } from "../../components/user/repository/user.repository
 import { ForbiddenException } from "../exception/forbidden.exception";
 import { Logger } from "winston";
 import { PostRepository } from "../../components/post/repository/post.repository";
+import { ClassConstructor } from "class-transformer";
 
 @Service()
-export abstract class BaseRoleGuard {
+export abstract class BaseRoleGuard<T> {
   private logger: Logger;
-
   protected abstract readonly loggerService: WinstonConfigService;
   protected abstract get userRepository(): UserRepository;
   protected abstract get postRepository(): PostRepository;
 
-  constructor() {}
+  constructor(private readonly classType: ClassConstructor<T>) {}
 
   protected async isPostOwner(userId: number, postId: number) {
     try {
@@ -40,14 +40,18 @@ export abstract class BaseRoleGuard {
 
       if (!nameSpace || !nameSpace.active)
         throw new InternalServerErrorException(
-          `${EXPRESS_NAMESPACE} is not active`
+          `${EXPRESS_NAMESPACE} is not active`,
+          this.classType.name,
+          "validateRole"
         );
 
       const role: Role = nameSpace.get(EXPRESS_ROLE);
       if (!role) {
         this.logger.error("Could not define role where metaData");
         throw new InternalServerErrorException(
-          "서버에 이상이 있습니다. 관리자에게 문의해주세요."
+          "서버에 이상이 있습니다. 관리자에게 문의해주세요.",
+          this.classType.name,
+          "validateRole"
         );
       }
 

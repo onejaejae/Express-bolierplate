@@ -8,13 +8,17 @@ import { BadRequestException } from "../exception/badRequest.exception";
 import { PostRepository } from "../../components/post/repository/post.repository";
 
 @Service()
-export class PostOwnerRoleGuard extends BaseRoleGuard {
+export class PostOwnerRoleGuard extends BaseRoleGuard<PostOwnerRoleGuard> {
   constructor(
     protected readonly loggerService: WinstonConfigService,
     protected readonly userRepository: UserRepository,
     protected readonly postRepository: PostRepository
   ) {
-    super();
+    super(PostOwnerRoleGuard);
+  }
+
+  protected getClass() {
+    return PostOwnerRoleGuard.name;
   }
 
   getPostId(req: CustomRequest) {
@@ -47,7 +51,6 @@ export class PostOwnerRoleGuard extends BaseRoleGuard {
       const isOwnered = await super.isPostOwner(req.userId, postId);
 
       if (isOwnered) return next();
-
       await super.validateRole(req, next);
     } catch (error) {
       next(error);

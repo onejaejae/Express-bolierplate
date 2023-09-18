@@ -11,13 +11,17 @@ export class RoleMiddleware {
 
   use(request: Request, response: Response, next: NextFunction) {
     if (!this.role)
-      throw new InternalServerErrorException("role이 설정되지 않았습니다.");
+      throw new InternalServerErrorException(
+        "role이 설정되지 않았습니다.",
+        RoleMiddleware.name
+      );
 
     const nameSpace = getNamespace(EXPRESS_NAMESPACE);
 
     if (!nameSpace || !nameSpace.active)
       throw new InternalServerErrorException(
-        `${EXPRESS_NAMESPACE} is not active`
+        `${EXPRESS_NAMESPACE} is not active`,
+        RoleMiddleware.name
       );
 
     nameSpace.set(EXPRESS_ROLE, this.role);

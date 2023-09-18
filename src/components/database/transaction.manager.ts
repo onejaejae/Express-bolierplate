@@ -6,14 +6,21 @@ import {
   EXPRESS_NAMESPACE,
 } from "../../common/middleware/namespace.const";
 import { InternalServerErrorException } from "../../common/exception/internalServer.error.exception";
+import { ExecutionContext } from "../../common/exception/execution.context";
 
 @Service()
-export class TransactionManager {
+export class TransactionManager extends ExecutionContext<TransactionManager> {
+  constructor() {
+    super(TransactionManager);
+  }
+
   getConnectionManager(): PoolConnection {
     const nameSpace = getNamespace(EXPRESS_NAMESPACE);
     if (!nameSpace || !nameSpace.active) {
       throw new InternalServerErrorException(
-        `${EXPRESS_NAMESPACE} is not active`
+        `${EXPRESS_NAMESPACE} is not active`,
+        this.getClass(),
+        "getConnectionManager"
       );
     }
     return nameSpace.get(EXPRESS_ENTITY_MANAGER);

@@ -7,7 +7,10 @@ export const configurations = (): Configurations => {
     path: `dotenv/.env.${process.env.NODE_ENV}`,
   });
   if (envFound.error) {
-    throw new InternalServerErrorException("⚠️  Couldn't find .env file  ⚠️");
+    throw new InternalServerErrorException(
+      "⚠️  Couldn't find .env file  ⚠️",
+      "Configurations"
+    );
   }
 
   const currentEnv = process.env.NODE_ENV || "local";

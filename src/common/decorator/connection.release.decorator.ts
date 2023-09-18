@@ -21,13 +21,15 @@ export function Release() {
       const nameSpace = getNamespace(EXPRESS_NAMESPACE);
       if (!nameSpace || !nameSpace.active)
         throw new InternalServerErrorException(
-          `${EXPRESS_NAMESPACE} is not active`
+          `${EXPRESS_NAMESPACE} is not active`,
+          "Release"
         );
 
       const conn = nameSpace.get(EXPRESS_ENTITY_MANAGER) as PoolConnection;
       if (!conn)
         throw new InternalServerErrorException(
-          `Could not find pool in ${EXPRESS_NAMESPACE} nameSpace`
+          `Could not find pool in ${EXPRESS_NAMESPACE} nameSpace`,
+          "Release"
         );
 
       try {
