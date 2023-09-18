@@ -11,6 +11,7 @@ import { Bcrypt } from "../../../common/util/encrypt";
 import { RefreshTokenDto } from "../dto/refresh.dto";
 import { SignUpDto } from "../dto/signUp.dto";
 import { LoginDto } from "../dto/login.dto";
+import { IJwtLoginResponse, IRefreshTokenResponse } from "../../../types/auth";
 
 @Service()
 export class AuthService implements IAuthService {
@@ -20,10 +21,9 @@ export class AuthService implements IAuthService {
     private readonly bcrypt: Bcrypt
   ) {}
 
-  async refresh(refreshTokenDto: RefreshTokenDto): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  async refresh(
+    refreshTokenDto: RefreshTokenDto
+  ): Promise<IRefreshTokenResponse> {
     const { userId, accessToken, refreshToken } = refreshTokenDto;
 
     const user = await this.userRepository.findByIdOrThrow(userId);
@@ -58,10 +58,7 @@ export class AuthService implements IAuthService {
     return this.userRepository.create(newUser);
   }
 
-  async jwtLogin(loginDTO: LoginDto): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  async jwtLogin(loginDTO: LoginDto): Promise<IJwtLoginResponse> {
     const { email, password } = loginDTO;
 
     const user = await this.userRepository.findByEmailOrThrow(email);

@@ -1,8 +1,6 @@
-import { Pool, createPool } from "mysql2/promise";
-import { BaseEntity } from "../../module";
+import { PoolConnection } from "mysql2/promise";
 import { TransactionManager } from "../../transaction.manager";
 import { BaseRepository } from "../base.repository";
-import { MySqlContainer, StartedMySqlContainer } from "testcontainers";
 import { InternalServerErrorException } from "../../../../common/exception/internalServer.error.exception";
 import {
   EXPRESS_ENTITY_MANAGER,
@@ -10,6 +8,9 @@ import {
 } from "../../../../common/middleware/namespace.const";
 import { createNamespace } from "cls-hooked";
 import { BadRequestException } from "../../../../common/exception/badRequest.exception";
+import { BaseEntity } from "../../base.entity";
+import { ConfigService } from "../../../config/config.service";
+import { MySQLModule } from "../../module/mysql.module";
 
 class Mock extends BaseEntity {
   name: string;
@@ -26,13 +27,13 @@ export class MockRepository extends BaseRepository<Mock> {
   }
 
   constructor(protected readonly txManager: TransactionManager) {
-    super();
+    super(Mock);
   }
 }
 
-const createMockTable = async (conn: Pool) => {
+const createMockTable = async (conn: PoolConnection) => {
   await conn.query(
-    "CREATE TABLE `mocks` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
+    "CREATE TABLE `mocks` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50),  `createdAt` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updatedAt` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `deletedAt` DATETIME(6) NULL DEFAULT NULL, PRIMARY KEY (`id`));"
   );
 };
 
@@ -40,19 +41,13 @@ describe("BaseRepository", () => {
   jest.setTimeout(300_000);
 
   const mockName = "test";
-  let container: StartedMySqlContainer;
-  let conn: Pool;
+  let conn: PoolConnection;
   let mockRepository: MockRepository;
 
   beforeAll(async () => {
-    container = await new MySqlContainer().start();
-    conn = await createPool({
-      host: container.getHost(),
-      port: container.getPort(),
-      database: container.getDatabase(),
-      user: container.getUsername(),
-      password: container.getUserPassword(),
-    });
+    const configService = new ConfigService();
+    const mysql = new MySQLModule(configService);
+    conn = await mysql.connection.getConnection();
     await createMockTable(conn);
 
     const txManager = new TransactionManager();
@@ -60,12 +55,11 @@ describe("BaseRepository", () => {
   });
 
   afterAll(async () => {
-    await conn.end();
-    await container.stop();
+    await conn.query("DROP TABLE mocks;");
+    await conn.destroy();
   });
 
   it("Should be defined", () => {
-    expect(container).toBeDefined();
     expect(conn).toBeDefined();
     expect(mockRepository).toBeDefined();
   });
@@ -114,8 +108,7 @@ describe("BaseRepository", () => {
     await namespace.runPromise(async () => {
       //set EntityManager
       await Promise.resolve().then(async () => {
-        const transactionConn = await conn.getConnection();
-        return namespace.set(EXPRESS_ENTITY_MANAGER, transactionConn);
+        return namespace.set(EXPRESS_ENTITY_MANAGER, conn);
       });
 
       // save
@@ -125,7 +118,7 @@ describe("BaseRepository", () => {
       expect(result).toBeTruthy();
 
       // find
-      const mock = await mockRepository.findOneAndThrow(1);
+      const mock = await mockRepository.findByIdOrThrow(1);
 
       //then
       expect(mock.id).toBe(1);
@@ -133,7 +126,7 @@ describe("BaseRepository", () => {
     });
   });
 
-  it("정상적으로 저장, FindOneAndThrow throw일 경우", async () => {
+  it("정상적으로 저장, findByIdOrThrow throw일 경우", async () => {
     //given
     const e = new Mock(mockName);
     const namespace = createNamespace(EXPRESS_NAMESPACE);
@@ -143,9 +136,8 @@ describe("BaseRepository", () => {
     // then
     await expect(
       namespace.runPromise(async () => {
-        const transactionConn = await conn.getConnection();
-        namespace.set(EXPRESS_ENTITY_MANAGER, transactionConn);
-        await mockRepository.findOneAndThrow(unExistMockId);
+        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        await mockRepository.findByIdOrThrow(unExistMockId);
       })
     ).rejects.toThrowError(
       new BadRequestException(`Item with id ${unExistMockId} not found.`)

@@ -1,6 +1,5 @@
 import { createNamespace, destroyNamespace, Namespace } from "cls-hooked";
-import { createPool, Pool } from "mysql2/promise";
-import { MySqlContainer, StartedMySqlContainer } from "testcontainers";
+import { PoolConnection } from "mysql2/promise";
 import { TransactionManager } from "../../../database/transaction.manager";
 import { UserRepository } from "../../repository/user.repository";
 import UserService from "../user.service";
@@ -9,43 +8,28 @@ import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../../../common/middleware/namespace.const";
-import { CreateUserDTO } from "../../dto/create.user.dto";
 import { BadRequestException } from "../../../../common/exception/badRequest.exception";
+import { UserFactory } from "../../../../../test/utils/factory/user.factory";
+import { User } from "../../entity/user.entity";
+import { Role } from "../../../../common/types/role/role.type";
+import { ConfigService } from "../../../config/config.service";
+import { MySQLModule } from "../../../database/module/mysql.module";
 
 describe("user service test", () => {
-  // for testContainers
-  jest.setTimeout(300_000);
-
-  let container: StartedMySqlContainer;
-  let conn: Pool;
+  let conn: PoolConnection;
   let namespace: Namespace;
   let service: IUserService;
-
-  const createUserTable = async (conn: Pool) => {
-    await conn.query(
-      "CREATE TABLE `users` (`id` INT(11) AUTO_INCREMENT, `name` VARCHAR(50), PRIMARY KEY (`id`));"
-    );
-  };
-
-  const createUser = async (conn: Pool, createUserDto: CreateUserDTO) => {
-    const query = `INSERT INTO users (name) VALUES('${createUserDto.name}');`;
-    await conn.query(query);
-  };
+  let userFactory: UserFactory;
 
   beforeAll(async () => {
-    container = await new MySqlContainer().start();
-    conn = await createPool({
-      host: container.getHost(),
-      port: container.getPort(),
-      database: container.getDatabase(),
-      user: container.getUsername(),
-      password: container.getUserPassword(),
-    });
-    await createUserTable(conn);
+    const configService = new ConfigService();
+    const mysql = new MySQLModule(configService);
+    conn = await mysql.connection.getConnection();
 
     const txManager = new TransactionManager();
     const userRepository = new UserRepository(txManager);
     service = new UserService(userRepository);
+    userFactory = new UserFactory();
   });
 
   beforeEach(() => {
@@ -59,30 +43,13 @@ describe("user service test", () => {
   });
 
   afterAll(async () => {
-    await conn.end();
-    await container.stop();
+    await conn.destroy();
   });
 
   it("Should be defined", () => {
-    expect(container).toBeDefined();
     expect(conn).toBeDefined();
     expect(namespace).toBeDefined();
     expect(service).toBeDefined();
-  });
-
-  it("createUser - 성공", async () => {
-    // given
-    const createUserDto = new CreateUserDTO("test");
-
-    // when
-    const result = await namespace.runAndReturn(async () => {
-      const transactionConn = await conn.getConnection();
-      namespace.set(EXPRESS_ENTITY_MANAGER, transactionConn);
-      return service.createUser(createUserDto);
-    });
-
-    // then
-    expect(result).toBeTruthy();
   });
 
   it("getUser - user가 존재하지 않는 경우", async () => {
@@ -93,8 +60,7 @@ describe("user service test", () => {
     // then
     await expect(
       namespace.runPromise(async () => {
-        const transactionConn = await conn.getConnection();
-        namespace.set(EXPRESS_ENTITY_MANAGER, transactionConn);
+        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
         await service.getUser(userId);
       })
     ).rejects.toThrowError(
@@ -103,19 +69,25 @@ describe("user service test", () => {
   });
 
   it("getUser - user가 존재하는 경우", async () => {
-    const createUserDto = new CreateUserDTO("test");
+    const createUserDto = userFactory.createUserDto();
+    const newUser = new User(
+      createUserDto.email,
+      createUserDto.password,
+      Role.MEMBER.enumName.toUpperCase()
+    );
     // given
-    createUser(conn, createUserDto);
+    userFactory.createUser(conn, newUser);
 
     // when
     const result = await namespace.runAndReturn(async () => {
-      const transactionConn = await conn.getConnection();
-      namespace.set(EXPRESS_ENTITY_MANAGER, transactionConn);
+      namespace.set(EXPRESS_ENTITY_MANAGER, conn);
       return service.getUser(1);
     });
 
     // then
     expect(result.id).toBe(1);
-    expect(result.name).toBe(createUserDto.name);
+    expect(result.email).toBe(createUserDto.email);
+    expect(result.refreshToken).toBeDefined();
+    expect(result.password).not.toBe(createUserDto.password);
   });
 });
