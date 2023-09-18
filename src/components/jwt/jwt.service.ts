@@ -6,9 +6,10 @@ import { UserRepository } from "../user/repository/user.repository";
 import { Logger } from "winston";
 import { JwtPayload } from "../../types/common";
 import { BadRequestException } from "../../common/exception/badRequest.exception";
+import { ExecutionContext } from "../../common/exception/execution.context";
 
 @Service()
-export class JwtService {
+export class JwtService extends ExecutionContext<JwtService> {
   private jwtSecret: string;
   private logger: Logger;
 
@@ -17,6 +18,7 @@ export class JwtService {
     private readonly loggerService: WinstonConfigService,
     private readonly userRepository: UserRepository
   ) {
+    super(JwtService);
     this.jwtSecret = configService.getJwtConfig().JWT_SECRET;
     this.logger = loggerService.logger;
   }
@@ -79,7 +81,11 @@ export class JwtService {
         return false;
       }
     } else {
-      throw new BadRequestException("refreshToken 정보가 다릅니다");
+      throw new BadRequestException(
+        "refreshToken 정보가 다릅니다",
+        this.getClass(),
+        "refreshVerify"
+      );
     }
   }
 }

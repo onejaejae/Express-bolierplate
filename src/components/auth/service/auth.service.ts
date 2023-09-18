@@ -12,14 +12,20 @@ import { RefreshTokenDto } from "../dto/refresh.dto";
 import { SignUpDto } from "../dto/signUp.dto";
 import { LoginDto } from "../dto/login.dto";
 import { IJwtLoginResponse, IRefreshTokenResponse } from "../../../types/auth";
+import { ExecutionContext } from "../../../common/exception/execution.context";
 
 @Service()
-export class AuthService implements IAuthService {
+export class AuthService
+  extends ExecutionContext<AuthService>
+  implements IAuthService
+{
   constructor(
     private readonly tokenService: TokenService,
     private readonly userRepository: UserRepository,
     private readonly bcrypt: Bcrypt
-  ) {}
+  ) {
+    super(AuthService);
+  }
 
   async refresh(
     refreshTokenDto: RefreshTokenDto
@@ -47,7 +53,11 @@ export class AuthService implements IAuthService {
 
     const user = await this.userRepository.findOne({ email });
     if (user)
-      throw new BadRequestException(`user email: ${email} already exist`);
+      throw new BadRequestException(
+        `user email: ${email} already exist`,
+        this.getClass(),
+        "signUp"
+      );
 
     const hashedPassword = await this.bcrypt.createHash(password);
     const newUser = new User(
@@ -64,7 +74,11 @@ export class AuthService implements IAuthService {
     const user = await this.userRepository.findByEmailOrThrow(email);
     const isPasswordValid = await user.isPasswordValid(password, this.bcrypt);
     if (!isPasswordValid)
-      throw new BadRequestException(`user passwond invalid`);
+      throw new BadRequestException(
+        `user passwond invalid`,
+        this.getClass(),
+        "jwtLogin"
+      );
 
     const payloadDTO = new TokenPayload(user.id.toString(), user.email);
     const tokens = this.tokenService.createToken(payloadDTO.toPlain());

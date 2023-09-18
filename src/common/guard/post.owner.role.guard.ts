@@ -21,7 +21,12 @@ export class PostOwnerRoleGuard extends BaseRoleGuard {
     const target = req.params;
     const postId = parseInt(target.id, 10);
 
-    if (!postId) throw new BadRequestException("postId don't exist");
+    if (!postId)
+      throw new BadRequestException(
+        "postId don't exist",
+        PostOwnerRoleGuard.name,
+        "getPostId"
+      );
     return postId;
   }
 
@@ -31,7 +36,12 @@ export class PostOwnerRoleGuard extends BaseRoleGuard {
     next: NextFunction
   ): Promise<void> {
     try {
-      if (!req.userId) throw new BadRequestException("userId don't exist");
+      if (!req.userId)
+        throw new BadRequestException(
+          "userId don't exist",
+          PostOwnerRoleGuard.name,
+          "canActivate"
+        );
 
       const postId = this.getPostId(req);
       const isOwnered = await super.isPostOwner(req.userId, postId);

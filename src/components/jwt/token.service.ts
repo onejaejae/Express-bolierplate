@@ -6,15 +6,17 @@ import { TokenPayload } from "./dto/token-payload.dto";
 import { MethodNotAllowedException } from "../../common/exception/methodNotAllowed.exception";
 import { BadRequestException } from "../../common/exception/badRequest.exception";
 import { JwtPayload } from "../../types/common";
+import { ExecutionContext } from "../../common/exception/execution.context";
 
 @Service()
-export class TokenService {
+export class TokenService extends ExecutionContext<TokenService> {
   private logger: Logger;
 
   constructor(
     private readonly jwtService: JwtService,
     private readonly loggerService: WinstonConfigService
   ) {
+    super(TokenService);
     this.logger = loggerService.logger;
   }
 
@@ -78,7 +80,11 @@ export class TokenService {
       throw new MethodNotAllowedException("RefreshToken invalid");
 
     if (accessVerify.success)
-      throw new BadRequestException("Access Token이 유효합니다.");
+      throw new BadRequestException(
+        "Access Token이 유효합니다.",
+        this.getClass(),
+        "refresh"
+      );
 
     return this.createToken(payload);
   }

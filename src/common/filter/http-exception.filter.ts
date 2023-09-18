@@ -24,7 +24,7 @@ export class HttpExceptionFilter {
     _next: NextFunction
   ): Response<any, Record<string, any>> | void {
     response.status(err.status || statusCode.INTERNAL_SERVER_ERROR);
-    if (this.env !== "production") {
+    if (this.env === "dev" || this.env === "local") {
       this.loggerService.logger.error(
         `${response.req.method} ${response.req.url} ${err.status} ${err.stack} Response: "success: false, msg: ${err.message}"`
       );
@@ -32,8 +32,11 @@ export class HttpExceptionFilter {
 
     const returnObj: Record<string, any> = {
       message: err.message,
-      stack: err.stack,
     };
+    if (err.callClass) returnObj["callClass"] = err.callClass;
+    if (err.callMethod) returnObj["callMethod"] = err.callMethod;
+    if (err.stack) returnObj["stack"] = err.stack;
+
     response.send(util.fail(err.status || 500, returnObj));
   }
 }

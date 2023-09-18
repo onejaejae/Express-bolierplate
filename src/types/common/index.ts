@@ -29,6 +29,8 @@ export interface JwtPayload {
 
 export class ResponseError extends Error {
   status?: number;
+  callClass?: string;
+  callMethod?: string;
 }
 export interface CustomRequest extends Request {
   userId?: number;

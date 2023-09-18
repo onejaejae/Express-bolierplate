@@ -26,7 +26,11 @@ export class UserRepository extends BaseRepository<User> {
     const [results] = await this.queryRows(query, [email]);
 
     if (results.length === 0) {
-      throw new BadRequestException(`Item with email ${email} not found.`);
+      throw new BadRequestException(
+        `Item with email ${email} not found.`,
+        UserRepository.name,
+        "findByEmailOrThrow"
+      );
     }
 
     return results[0] as any;
@@ -43,7 +47,11 @@ export class UserRepository extends BaseRepository<User> {
 
     const [results] = await this.queryRows(query, [userId]);
     if (results.length === 0) {
-      throw new BadRequestException(`userId: ${userId} don't exist`);
+      throw new BadRequestException(
+        `userId: ${userId} don't exist`,
+        UserRepository.name,
+        "findByIdJoinWithPost"
+      );
     }
 
     const userWithPosts: GenerateUserJoinWithPost[] = results.map((res) =>

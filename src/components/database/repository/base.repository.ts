@@ -26,7 +26,11 @@ export abstract class BaseRepository<T extends BaseEntity>
   async update(item: T): Promise<boolean> {
     const isSoftDeleted = await this.isSoftDeleted(item.id);
     if (isSoftDeleted)
-      throw new BadRequestException(`id: ${item.id} deleted Item`);
+      throw new BadRequestException(
+        `id: ${item.id} deleted Item`,
+        this.classType.name,
+        "update"
+      );
 
     const id = item.id;
 
@@ -50,7 +54,11 @@ export abstract class BaseRepository<T extends BaseEntity>
   async softDelete(id: number): Promise<boolean> {
     const isSoftDeleted = await this.isSoftDeleted(id);
     if (isSoftDeleted)
-      throw new BadRequestException(`id: ${id} already deleted Item`);
+      throw new BadRequestException(
+        `id: ${id} already deleted Item`,
+        this.classType.name,
+        "softDelete"
+      );
 
     const [result] = await this.queryResult(
       `UPDATE ${this.getName()} SET deletedAt = NOW() WHERE id = ?`,
@@ -68,7 +76,9 @@ export abstract class BaseRepository<T extends BaseEntity>
     const keys = Object.keys(filters);
     if (keys.length === 0) {
       throw new BadRequestException(
-        "At least one filter parameter must be provided."
+        "At least one filter parameter must be provided.",
+        this.classType.name,
+        "findOne"
       );
     }
 
@@ -89,7 +99,11 @@ export abstract class BaseRepository<T extends BaseEntity>
     );
 
     if (result.length === 0) {
-      throw new BadRequestException(`Item with id ${id} not found.`);
+      throw new BadRequestException(
+        `Item with id ${id} not found.`,
+        this.classType.name,
+        "findByIdOrThrow"
+      );
     }
 
     return plainToInstance(this.classType, result[0]);
