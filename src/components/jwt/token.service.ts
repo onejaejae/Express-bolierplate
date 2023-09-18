@@ -77,7 +77,11 @@ export class TokenService extends ExecutionContext<TokenService> {
     );
 
     if (!refreshVerify)
-      throw new MethodNotAllowedException("RefreshToken invalid");
+      throw new MethodNotAllowedException(
+        "RefreshToken invalid",
+        this.getClass(),
+        "refresh"
+      );
 
     if (accessVerify.success)
       throw new BadRequestException(

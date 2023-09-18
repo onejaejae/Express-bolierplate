@@ -55,13 +55,23 @@ export abstract class BaseRoleGuard<T> {
         );
       }
 
-      if (!req.userId) throw new UnauthorizedException("인증정보가 없습니다.");
+      if (!req.userId)
+        throw new UnauthorizedException(
+          "인증정보가 없습니다.",
+          this.classType.name,
+          "validateRole"
+        );
 
       const currentUser = await this.userRepository.findByIdOrThrow(req.userId);
       const currentUserRole = currentUser.role.toUpperCase();
       const userRole = Role.find((r) => r.role === currentUserRole);
 
-      if (!userRole) throw new UnauthorizedException("role 정보가 없습니다.");
+      if (!userRole)
+        throw new UnauthorizedException(
+          "role 정보가 없습니다.",
+          this.classType.name,
+          "validateRole"
+        );
 
       const isAllow = role.isEquals(userRole);
 
