@@ -12,8 +12,6 @@ import { UserRepository } from "../../components/user/repository/user.repository
 import { ForbiddenException } from "../exception/forbidden.exception";
 import { Logger } from "winston";
 import { PostRepository } from "../../components/post/repository/post.repository";
-import { BadRequestException } from "../exception/badRequest.exception";
-import { ExecutionContext } from "../exception/execution.context";
 
 @Service()
 export abstract class BaseRoleGuard {

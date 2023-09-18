@@ -4,11 +4,13 @@ import { PostRepository } from "./repository/post.repository";
 import { CreatePostDTO } from "./dto/create.post.dto";
 import { Post } from "./entity/post.entity";
 import { Transactional } from "../../common/decorator/transaction.decorator";
+import { Release } from "../../common/decorator/connection.release.decorator";
 
 @Service()
 class PostService implements IPostService {
   constructor(private readonly postRepository: PostRepository) {}
 
+  @Release()
   async getPost(postId: number) {
     return this.postRepository.findByIdOrThrow(postId);
   }

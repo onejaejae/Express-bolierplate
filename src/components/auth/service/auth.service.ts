@@ -13,6 +13,7 @@ import { SignUpDto } from "../dto/signUp.dto";
 import { LoginDto } from "../dto/login.dto";
 import { IJwtLoginResponse, IRefreshTokenResponse } from "../../../types/auth";
 import { ExecutionContext } from "../../../common/exception/execution.context";
+import { Release } from "../../../common/decorator/connection.release.decorator";
 
 @Service()
 export class AuthService
@@ -27,6 +28,7 @@ export class AuthService
     super(AuthService);
   }
 
+  @Release()
   async refresh(
     refreshTokenDto: RefreshTokenDto
   ): Promise<IRefreshTokenResponse> {
@@ -68,6 +70,7 @@ export class AuthService
     return this.userRepository.create(newUser);
   }
 
+  @Release()
   async jwtLogin(loginDTO: LoginDto): Promise<IJwtLoginResponse> {
     const { email, password } = loginDTO;
 
