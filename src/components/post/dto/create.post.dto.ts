@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from "class-validator";
 
-export class CreatePostDTO {
+export class CreatePostDto {
   @IsNumber()
   readonly authorId: number;
 

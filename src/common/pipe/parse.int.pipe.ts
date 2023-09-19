@@ -6,6 +6,10 @@ import { ExecutionContext } from "../exception/execution.context";
 
 @Service()
 export class ParseIntPipe extends ExecutionContext<ParseIntPipe> {
+  constructor() {
+    super(ParseIntPipe);
+  }
+
   use(req: CustomRequest, _res: Response, next: NextFunction) {
     const { id } = req.params;
 

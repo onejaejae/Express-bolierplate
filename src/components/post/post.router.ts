@@ -4,7 +4,7 @@ import { DependencyManager } from "../../loaders/dependency.manager";
 import { CustomRequest } from "../../types/common";
 import { Role } from "../../common/types/role/role.type";
 import { RoleMiddleware } from "../../common/middleware/role.middleware";
-import { CreatePostDTO } from "./dto/create.post.dto";
+import { CreatePostDto } from "./dto/create.post.dto";
 
 const postRouter: Router = Router();
 
@@ -29,7 +29,7 @@ postRouter.post(
   (req: Request, res: Response, next: NextFunction) =>
     authGuard.use(req, res, next),
   (req: Request, res: Response, next: NextFunction) =>
-    validationMiddleware.use(req, res, next, CreatePostDTO),
+    validationMiddleware.use(req, res, next, CreatePostDto),
   (req: Request, res: Response, next: NextFunction) =>
     postController.createPost(req, res, next)
 );

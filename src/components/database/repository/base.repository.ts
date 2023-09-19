@@ -15,7 +15,7 @@ export abstract class BaseRepository<T extends BaseEntity>
 
   abstract getName(): string;
 
-  async create(item: T): Promise<any> {
+  async create(item: T): Promise<boolean> {
     const [result] = await this.queryResult(
       `INSERT INTO ${this.getName()} SET ?`,
       item

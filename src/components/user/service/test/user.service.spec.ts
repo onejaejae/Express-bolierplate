@@ -64,7 +64,11 @@ describe("user service test", () => {
         await service.getUser(userId);
       })
     ).rejects.toThrowError(
-      new BadRequestException(`Item with id ${userId} not found.`)
+      new BadRequestException(
+        `Item with id ${userId} not found.`,
+        User.name,
+        "findByIdOrThrow"
+      )
     );
   });
 

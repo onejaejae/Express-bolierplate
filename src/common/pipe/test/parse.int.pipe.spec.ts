@@ -26,7 +26,7 @@ describe("parseIntPipe Test", () => {
     req.params.id = invalidId;
 
     expect(() => pipe.use(req, res, next)).toThrowError(
-      new BadRequestException(`Invalid id: ${invalidId}`)
+      new BadRequestException(`Invalid id: ${invalidId}`, ParseIntPipe.name)
     );
     expect(next).not.toBeCalled();
   });
