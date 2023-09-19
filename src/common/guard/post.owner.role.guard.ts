@@ -6,6 +6,7 @@ import { UserRepository } from "../../components/user/repository/user.repository
 import { BaseRoleGuard } from "./base.role.guard";
 import { BadRequestException } from "../exception/badRequest.exception";
 import { PostRepository } from "../../components/post/repository/post.repository";
+import { Role } from "../types/role/role.type";
 
 @Service()
 export class PostOwnerRoleGuard extends BaseRoleGuard<PostOwnerRoleGuard> {
@@ -33,7 +34,8 @@ export class PostOwnerRoleGuard extends BaseRoleGuard<PostOwnerRoleGuard> {
   async canActivate(
     req: CustomRequest,
     _res: Response,
-    next: NextFunction
+    next: NextFunction,
+    roles: Role[]
   ): Promise<void> {
     try {
       if (!req.userId)
@@ -47,7 +49,7 @@ export class PostOwnerRoleGuard extends BaseRoleGuard<PostOwnerRoleGuard> {
       const isOwnered = await super.isPostOwner(req.userId, postId);
 
       if (isOwnered) return next();
-      await super.validateRole(req, next);
+      await super.validateRole(req, next, roles);
     } catch (error) {
       next(error);
     }
