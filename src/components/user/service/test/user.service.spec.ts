@@ -7,7 +7,7 @@ import { IUserService } from "../../interface/user-service.interface";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../../../common/middleware/namespace.const";
+} from "../../../../common/constant/namespace.const";
 import { BadRequestException } from "../../../../common/exception/badRequest.exception";
 import { UserFactory } from "../../../../../test/utils/factory/user.factory";
 import { User } from "../../entity/user.entity";

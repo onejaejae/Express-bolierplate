@@ -2,7 +2,7 @@ import { getNamespace } from "cls-hooked";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../middleware/namespace.const";
+} from "../constant/namespace.const";
 import { InternalServerErrorException } from "../exception/internalServer.error.exception";
 import { PoolConnection } from "mysql2/promise";
 

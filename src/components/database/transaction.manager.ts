@@ -4,7 +4,7 @@ import { Service } from "typedi";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../common/middleware/namespace.const";
+} from "../../common/constant/namespace.const";
 import { InternalServerErrorException } from "../../common/exception/internalServer.error.exception";
 import { ExecutionContext } from "../../common/exception/execution.context";
 

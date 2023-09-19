@@ -15,7 +15,7 @@ import { Bcrypt } from "../../../common/util/encrypt";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../../common/middleware/namespace.const";
+} from "../../../common/constant/namespace.const";
 import { User } from "../../user/entity/user.entity";
 import { Role } from "../../../common/types/role/role.type";
 

@@ -5,7 +5,7 @@ import { InternalServerErrorException } from "../../../../common/exception/inter
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../../../common/middleware/namespace.const";
+} from "../../../../common/constant/namespace.const";
 import { createNamespace } from "cls-hooked";
 import { BadRequestException } from "../../../../common/exception/badRequest.exception";
 import { BaseEntity } from "../../base.entity";

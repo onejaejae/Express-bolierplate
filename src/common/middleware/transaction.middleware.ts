@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { createNamespace, getNamespace } from "cls-hooked";
-import { EXPRESS_ENTITY_MANAGER, EXPRESS_NAMESPACE } from "./namespace.const";
+import {
+  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_NAMESPACE,
+} from "../constant/namespace.const";
 import { Service } from "typedi";
 import { MySQLModule } from "../../components/database/module/mysql.module";
 

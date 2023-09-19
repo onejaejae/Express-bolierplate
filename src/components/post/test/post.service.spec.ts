@@ -10,7 +10,7 @@ import { MySQLModule } from "../../database/module/mysql.module";
 import {
   EXPRESS_ENTITY_MANAGER,
   EXPRESS_NAMESPACE,
-} from "../../../common/middleware/namespace.const";
+} from "../../../common/constant/namespace.const";
 import { UserFactory } from "../../../../test/utils/factory/user.factory";
 
 describe("post service test", () => {
