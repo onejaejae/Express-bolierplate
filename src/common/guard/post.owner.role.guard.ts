@@ -17,10 +17,6 @@ export class PostOwnerRoleGuard extends BaseRoleGuard<PostOwnerRoleGuard> {
     super(PostOwnerRoleGuard);
   }
 
-  protected getClass() {
-    return PostOwnerRoleGuard.name;
-  }
-
   getPostId(req: CustomRequest) {
     const target = req.params;
     const postId = parseInt(target.id, 10);
