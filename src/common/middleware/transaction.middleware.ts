@@ -15,7 +15,11 @@ export class TransactionMiddleware {
     return namespace.runAndReturn(async () => {
       Promise.resolve()
         .then(async () => {
-          await this.setEntityManager();
+          try {
+            await this.setEntityManager();
+          } catch (error) {
+            next(error);
+          }
         })
         .then(next);
     });
