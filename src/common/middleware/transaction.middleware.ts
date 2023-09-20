@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createNamespace, getNamespace } from "cls-hooked";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../constant/namespace.const";
 import { Service } from "typedi";
@@ -32,6 +32,6 @@ export class TransactionMiddleware {
     const namespace = getNamespace(EXPRESS_NAMESPACE)!;
     const conn = await this.mysql.connection.getConnection();
 
-    namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+    namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
   }
 }

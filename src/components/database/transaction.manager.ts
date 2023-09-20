@@ -2,7 +2,7 @@ import { getNamespace } from "cls-hooked";
 import { PoolConnection } from "mysql2/promise";
 import { Service } from "typedi";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../common/constant/namespace.const";
 import { InternalServerErrorException } from "../../common/exception/internalServer.error.exception";
@@ -23,6 +23,6 @@ export class TransactionManager extends ExecutionContext<TransactionManager> {
         "getConnectionManager"
       );
     }
-    return nameSpace.get(EXPRESS_ENTITY_MANAGER);
+    return nameSpace.get(EXPRESS_CONNECTION_MANAGER);
   }
 }

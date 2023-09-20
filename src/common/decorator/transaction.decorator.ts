@@ -1,6 +1,6 @@
 import { getNamespace } from "cls-hooked";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../constant/namespace.const";
 import { PoolConnection } from "mysql2/promise";
@@ -25,7 +25,7 @@ export function Transactional() {
           "Transactional"
         );
 
-      const conn = nameSpace.get(EXPRESS_ENTITY_MANAGER) as PoolConnection;
+      const conn = nameSpace.get(EXPRESS_CONNECTION_MANAGER) as PoolConnection;
       if (!conn)
         throw new InternalServerErrorException(
           `Could not find pool in ${EXPRESS_NAMESPACE} nameSpace`,

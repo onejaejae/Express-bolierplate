@@ -5,7 +5,7 @@ import { UserRepository } from "../../repository/user.repository";
 import UserService from "../user.service";
 import { IUserService } from "../../interface/user-service.interface";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../../../common/constant/namespace.const";
 import { BadRequestException } from "../../../../common/exception/badRequest.exception";
@@ -60,7 +60,7 @@ describe("user service test", () => {
     // then
     await expect(
       namespace.runPromise(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         await service.getUser(userId);
       })
     ).rejects.toThrowError(
@@ -84,7 +84,7 @@ describe("user service test", () => {
 
     // when
     const result = await namespace.runAndReturn(async () => {
-      namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+      namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
       return service.getUser(1);
     });
 

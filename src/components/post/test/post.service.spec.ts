@@ -8,7 +8,7 @@ import { TransactionManager } from "../../database/transaction.manager";
 import { ConfigService } from "../../config/config.service";
 import { MySQLModule } from "../../database/module/mysql.module";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../../common/constant/namespace.const";
 import { UserFactory } from "../../../../test/utils/factory/user.factory";
@@ -65,7 +65,7 @@ describe("post service test", () => {
 
       // when
       const result = await namespace.runAndReturn(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         return service.getPost(1);
       });
 
@@ -86,7 +86,7 @@ describe("post service test", () => {
 
       // when
       const result = await namespace.runAndReturn(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         return service.createPost(createPostDto);
       });
 
@@ -106,7 +106,7 @@ describe("post service test", () => {
 
       // when
       const result = await namespace.runAndReturn(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         return service.deletePost(1);
       });
 

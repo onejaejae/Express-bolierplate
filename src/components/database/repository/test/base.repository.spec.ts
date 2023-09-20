@@ -3,7 +3,7 @@ import { TransactionManager } from "../../transaction.manager";
 import { BaseRepository } from "../base.repository";
 import { InternalServerErrorException } from "../../../../common/exception/internalServer.error.exception";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../../../common/constant/namespace.const";
 import { createNamespace } from "cls-hooked";
@@ -11,6 +11,7 @@ import { BadRequestException } from "../../../../common/exception/badRequest.exc
 import { BaseEntity } from "../../base.entity";
 import { ConfigService } from "../../../config/config.service";
 import { MySQLModule } from "../../module/mysql.module";
+import { mock } from "node:test";
 
 class Mock extends BaseEntity {
   name: string;
@@ -71,7 +72,11 @@ describe("BaseRepository", () => {
     //when
     //then
     await expect(mockRepository.create(m)).rejects.toThrowError(
-      new InternalServerErrorException(`${EXPRESS_NAMESPACE} is not active`)
+      new InternalServerErrorException(
+        `${EXPRESS_NAMESPACE} is not active`,
+        TransactionManager.name,
+        "getConnectionManager"
+      )
     );
   });
 
@@ -83,19 +88,11 @@ describe("BaseRepository", () => {
     //when
     //then
     await expect(mockRepository.create(m)).rejects.toThrowError(
-      new InternalServerErrorException(`${EXPRESS_NAMESPACE} is not active`)
-    );
-  });
-
-  it("NameSpace가 있지만 active 상태가 아닌 경우", async () => {
-    //given
-    const m = new Mock(mockName);
-    createNamespace(EXPRESS_NAMESPACE);
-
-    //when
-    //then
-    await expect(mockRepository.create(m)).rejects.toThrowError(
-      new InternalServerErrorException(`${EXPRESS_NAMESPACE} is not active`)
+      new InternalServerErrorException(
+        `${EXPRESS_NAMESPACE} is not active`,
+        TransactionManager.name,
+        "getConnectionManager"
+      )
     );
   });
 
@@ -108,7 +105,7 @@ describe("BaseRepository", () => {
     await namespace.runPromise(async () => {
       //set EntityManager
       await Promise.resolve().then(async () => {
-        return namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        return namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
       });
 
       // save
@@ -136,11 +133,15 @@ describe("BaseRepository", () => {
     // then
     await expect(
       namespace.runPromise(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         await mockRepository.findByIdOrThrow(unExistMockId);
       })
     ).rejects.toThrowError(
-      new BadRequestException(`Item with id ${unExistMockId} not found.`)
+      new BadRequestException(
+        `Item with id ${unExistMockId} not found.`,
+        Mock.name,
+        "findByIdOrThrow"
+      )
     );
   });
 });

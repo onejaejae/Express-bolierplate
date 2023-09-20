@@ -13,7 +13,7 @@ import { JwtService } from "../../jwt/jwt.service";
 import { WinstonConfigService } from "../../config/winston-config.service";
 import { Bcrypt } from "../../../common/util/encrypt";
 import {
-  EXPRESS_ENTITY_MANAGER,
+  EXPRESS_CONNECTION_MANAGER,
   EXPRESS_NAMESPACE,
 } from "../../../common/constant/namespace.const";
 import { User } from "../../user/entity/user.entity";
@@ -73,7 +73,7 @@ describe("Auth Service Test", () => {
 
       // when
       const result = await namespace.runAndReturn(async () => {
-        namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+        namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
         return service.signUp(signUpDto);
       });
 
@@ -97,12 +97,14 @@ describe("Auth Service Test", () => {
       // then
       await expect(
         namespace.runPromise(async () => {
-          namespace.set(EXPRESS_ENTITY_MANAGER, conn);
+          namespace.set(EXPRESS_CONNECTION_MANAGER, conn);
           await service.signUp(duplicateSignUpDto);
         })
       ).rejects.toThrowError(
         new BadRequestException(
-          `user email: ${duplicateSignUpDto.email} already exist`
+          `user email: ${duplicateSignUpDto.email} already exist`,
+          AuthService.name,
+          "signUp"
         )
       );
     });
