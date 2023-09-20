@@ -17,19 +17,24 @@ export function Transactional() {
 
     // wrapped origin method with Transaction
     async function transactionWrapped(...args: unknown[]) {
+      const callClass = this.constructor.name;
+      const callMethod = _propertyKey.toString();
+
       // validate nameSpace && get nameSpace
       const nameSpace = getNamespace(EXPRESS_NAMESPACE);
       if (!nameSpace || !nameSpace.active)
         throw new InternalServerErrorException(
           `${EXPRESS_NAMESPACE} is not active`,
-          "Transactional"
+          callClass,
+          callMethod
         );
 
       const conn = nameSpace.get(EXPRESS_CONNECTION_MANAGER) as PoolConnection;
       if (!conn)
         throw new InternalServerErrorException(
-          `Could not find pool in ${EXPRESS_NAMESPACE} nameSpace`,
-          "Transactional"
+          `Could not find connection in ${EXPRESS_NAMESPACE} nameSpace`,
+          callClass,
+          callMethod
         );
 
       return await nameSpace.runAndReturn(async () => {
